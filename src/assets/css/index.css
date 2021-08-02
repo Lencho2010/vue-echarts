@@ -1,0 +1,75 @@
+body{
+    height: 1000px;
+    overflow: hidden;
+}
+
+.chart-container {
+    height: calc(100% - 70px);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.chart-left{
+    display: flex;
+    flex-direction: column-reverse
+}
+
+.chart-right{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.chart-component {
+    margin: 5px 5px;
+}
+
+.template {
+    /* width: 450px; */
+    width: 100%;
+    height: 250px;
+    position: relative;
+}
+
+.color1 {
+    background-color: rgb(6, 135, 158);
+}
+
+.color2 {
+    background-color: burlywood;
+}
+
+.color3 {
+    background-color: darkcyan;
+}
+
+.chart-body {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 250px;
+    font-size: 24px;
+    width: 100%;
+    height: calc(100% - 20px);
+}
+
+.chart-title {
+    text-align: center;
+    line-height: 20px;
+    font-size: 18px;
+    color: rgb(1, 211, 18);
+}
+
+.chart-title-click{
+    cursor: pointer;
+}
+
+.chart-title-checked {
+    color: orange
+}
+
+.menu-tool {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
