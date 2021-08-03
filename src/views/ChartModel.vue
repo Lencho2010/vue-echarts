@@ -1,12 +1,12 @@
 <template>
-    <component :chartClick="chartClick" :chart-key="chartData.key" ref="child" :is="chartData.name">
-      <template slot="title" slot-scope="comTitle">
-        <chart-title :title-tag="chartData.title" :title-data="comTitle.title"></chart-title>
-      </template>
-      <template v-if="chartData.showMenu" v-slot:menu>
-        <menu-tool></menu-tool>
-      </template>
-    </component>
+  <component :chartClick="chartClick" :chart-key="chartData.key" ref="child" :is="chartData.name">
+    <template slot="title" slot-scope="comTitle">
+      <chart-title :title-tag="chartData.title" :title-data="comTitle.title"></chart-title>
+    </template>
+    <template v-if="chartData.showMenu" v-slot:menu>
+      <menu-tool></menu-tool>
+    </template>
+  </component>
 </template>
 
 <script>
@@ -23,7 +23,7 @@ export default {
   mounted() {
   },
   data() {
-    return {}
+    return {};
   },
   props: ["chartData"],
   components: { TopBar, MenuTool, ChartTitle, Column1, Pie1, Column2, Column3 },
@@ -32,7 +32,7 @@ export default {
       console.log(`app模块检测到chart[${chartKey}]被点击了`);
     }
   }
-}
+};
 </script>
 
 <style scoped>

@@ -1,5 +1,5 @@
 <template>
-  <div class="template color3">
+  <div class="template color3 h-full w-full">
     <slot name="title" v-bind:title="titleData">我是默认标题</slot>
     <slot name="menu"></slot>
     <div ref="chartBody" class="chart-body">{{ chartContent }}</div>
@@ -34,9 +34,6 @@ export default {
 }
 
 .template {
-  /* width: 450px; */
-  width: 100%;
-  height: 250px;
   position: relative;
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="template color3">
+  <div class="template color3 h-full w-full">
     <slot name='title' v-bind:title="titleData">我是默认标题</slot>
     <slot name='menu'></slot>
     <div ref="chartBody" class="chart-body">{{chartContent}}</div>
@@ -35,11 +35,8 @@ export default {
       return this.$http.get('/data/pie_1.json')
     },
     async gainData() {
-      //通过布局数据中传递过来的key值作为参数从后台请求对应数据
-      //console.log(this.chartKey);
       const { data: retData } = await this.gainDataFromServer()
       this.titleData.text = retData.title
-      //console.log(this.$refs.chartBody);
       initChart(this)
     },
 
@@ -54,9 +51,6 @@ export default {
 }
 
 .template {
-  /* width: 450px; */
-  width: 100%;
-  height: 250px;
   position: relative;
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="template color1" :style="[myStyl]">
+  <div class="template color1 h-full w-full">
     <slot name="title" v-bind:title="titleData">我是默认标题</slot>
     <slot name="menu"></slot>
     <div ref="chartBody" class="chart-body" :class="[!isExpand?'hidden':'']">{{ chartContent }}</div>
@@ -19,10 +19,6 @@ export default {
   },
   data() {
     return {
-      myStyl:{
-        width: "100%",//宽高设置来自于配置文件，此处设置默认值
-        "height": "250px"
-      },
       chartTitle: "我是column_1标题",
       chartContent: "",
       titleData: {
@@ -39,8 +35,6 @@ export default {
       return this.$http.get("/data/column_1.json");
     },
     async gainData() {
-      //通过布局数据中传递过来的key值作为参数从后台请求对应数据
-      console.log(this.chartKey);
       const { data: retData } = await this.gainDataFromServer();
       this.titleData.text = retData.title;
       initChart(this);
@@ -55,9 +49,6 @@ export default {
 <style scoped>
 
 .template {
-  /* width: 450px; */
-  width: 100%;
-  height: 250px;
   position: relative;
 }
 

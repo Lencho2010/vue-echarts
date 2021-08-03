@@ -1,7 +1,5 @@
 export default function (vueInstance, chartOption) {
   const that = vueInstance
-
-  console.log(that.$refs);
   const myChart = that.$echarts.init(that.$refs.chartBody);
 
   const option = {
