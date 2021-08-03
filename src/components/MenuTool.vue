@@ -14,5 +14,9 @@ export default {
 </script>
 
 <style scoped>
-
+.menu-tool {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 </style>

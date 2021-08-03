@@ -1,13 +1,14 @@
 <template>
-  <div class="template color1">
-    <slot name='title' v-bind:title="titleData">我是默认标题</slot>
-    <slot name='menu'></slot>
-    <div ref="chartBody" class="chart-body">{{chartContent}}</div>
+  <div class="template color1" :style="[myStyl]">
+    <slot name="title" v-bind:title="titleData">我是默认标题</slot>
+    <slot name="menu"></slot>
+    <div ref="chartBody" class="chart-body" :class="[!isExpand?'hidden':'']">{{ chartContent }}</div>
   </div>
 </template>
 
 <script>
-import initChart from './column_1_chart.js'
+import initChart from "./extendjs/column_1_chart.js";
+
 export default {
   name: "Column1",
   mounted() {
@@ -18,14 +19,19 @@ export default {
   },
   data() {
     return {
+      myStyl:{
+        width: "100%",//宽高设置来自于配置文件，此处设置默认值
+        "height": "350px"
+      },
       chartTitle: "我是column_1标题",
       chartContent: "",
       titleData: {
         text: "种植园用地123"
-      }
+      },
+      isExpand: true
     };
   },
-  props: ["chartKey"],
+  props: ["chartKey", "chartClick"],
   computed: {},
   methods: {
     // 异步从后台获取数据
@@ -38,11 +44,34 @@ export default {
       const { data: retData } = await this.gainDataFromServer();
       this.titleData.text = retData.title;
       initChart(this);
+    },
+    chartBarClick() {
+      this.chartClick && this.chartClick(this.chartKey);
     }
   }
 };
 </script>
 
 <style scoped>
+
+.template {
+  /* width: 450px; */
+  width: 100%;
+  height: 250px;
+  position: relative;
+}
+
+.color1 {
+  background-color: rgb(6, 135, 158);
+}
+
+.chart-body {
+  text-align: center;
+  vertical-align: middle;
+  line-height: 250px;
+  font-size: 24px;
+  width: 100%;
+  height: calc(100% - 20px);
+}
 
 </style>

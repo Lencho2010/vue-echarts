@@ -72,6 +72,7 @@ export default function (vueInstance, chartOption) {
     //     seriesIndex: 0,
     //     dataIndex: data.dataIndex + 1
     // });
+    that.chartBarClick()
 
   });
   // myChart.on('click', { seriesName: '销量' }, function () {

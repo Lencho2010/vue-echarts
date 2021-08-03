@@ -27,5 +27,36 @@ export default {
 </script>
 
 <style scoped>
+.topBarContainer {
+  height: 70px;
+  position: relative;
+}
 
+.titleContent {
+  text-align: center;
+  font-size: 30px;
+  color: #83f6df;
+  line-height: 70px;
+  margin: 0 10px;
+}
+
+.fullTitle {
+  display: flex;
+  justify-content: center;
+}
+
+.before-bg {
+  margin-top: 22px;
+  width: 456px;
+  height: 29px;
+  background: url(../assets/layoutImages/顶部装饰左.png) no-repeat center center;
+}
+
+.after-bg {
+  margin-top: 22px;
+  margin-left: -18px;
+  width: 456px;
+  height: 29px;
+  background: url(../assets/layoutImages/顶部装饰右.png) no-repeat center center;
+}
 </style>

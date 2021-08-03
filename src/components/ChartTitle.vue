@@ -27,5 +27,18 @@ export default {
 </script>
 
 <style scoped>
+.chart-title {
+  text-align: center;
+  line-height: 20px;
+  font-size: 18px;
+  color: rgb(1, 211, 18);
+}
 
+.chart-title-click{
+  cursor: pointer;
+}
+
+.chart-title-checked {
+  color: orange
+}
 </style>

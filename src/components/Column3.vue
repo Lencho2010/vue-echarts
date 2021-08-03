@@ -29,4 +29,23 @@ export default {
 
 <style scoped>
 
+.color3 {
+  background-color: darkcyan;
+}
+
+.template {
+  /* width: 450px; */
+  width: 100%;
+  height: 250px;
+  position: relative;
+}
+
+.chart-body {
+  text-align: center;
+  vertical-align: middle;
+  line-height: 250px;
+  font-size: 24px;
+  width: 100%;
+  height: calc(100% - 20px);
+}
 </style>

@@ -46,5 +46,32 @@ export default {
 </script>
 
 <style scoped>
+.menuBarContainer{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
 
+.clear{
+  margin:3px 10px 0 0;
+}
+
+.menuItem {
+  border: 1px solid #fff;
+  border-radius: 10px;
+  padding: 2px 5px;
+  margin-right: 3px;
+}
+
+.menuItem span {
+  font-size: 14px;
+  line-height: 18px;
+  color: azure;
+}
+
+.menuItemClose {
+  margin-top: 3px;
+  width: 10px;
+  height: 10px;
+}
 </style>
