@@ -5,6 +5,13 @@ export default function(vueInstance, chartOption) {
 
   const checkedColor = "rgb(255,50,0)";
   const myChart = that.$echarts.init(that.$refs.chartBody);
+  let timer;
+  window.addEventListener("resize", () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      myChart.resize();
+    }, 500);
+  });
 
   const originData = [5, 20, 36, 10, 10, 20];
 
@@ -37,7 +44,7 @@ export default function(vueInstance, chartOption) {
         },
         color: function(params) {
           return colorList0[params.dataIndex];
-        },
+        }
       },
       emphasis: {
         itemStyle: {
