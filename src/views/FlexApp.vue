@@ -2,17 +2,17 @@
   <div class="root-container h-full">
     <top-bar :title="fullTitle"></top-bar>
     <div class="chart-container">
-      <div class="chart-child chart-left" style="background-color: coral;" :style="[flexStyle.leftStyle]">
+      <div class="chart-child chart-left" :style="[flexStyle.leftStyle]">
         <div class="chart-component w-full" :style="[val.layout]" v-for="(val,index) of leftData">
           <chart-model :chart-data="val"></chart-model>
         </div>
       </div>
-      <div class="chart-child chart-center" style="background-color: aqua;" :style="[flexStyle.centerStyle]">
+      <div class="chart-child chart-center" :style="[flexStyle.centerStyle]">
         <div class="chart-component w-full" :style="[val.layout]" v-for="(val,index) of centerData">
           <chart-model :chart-data="val"></chart-model>
         </div>
       </div>
-      <div class="chart-child chart-right" style="background-color: cadetblue;" :style="[flexStyle.rightStyle]">
+      <div class="chart-child chart-right" :style="[flexStyle.rightStyle]">
         <div class="chart-component w-full" :style="[val.layout]" v-for="(val,index) of rightData">
           <chart-model :chart-data="val"></chart-model>
         </div>
@@ -93,7 +93,7 @@ export default {
 
 .template{
   border-radius: 10px;
-  background-color: #297380;
+  background-color: #195661;
 }
 
 .chart-left {
