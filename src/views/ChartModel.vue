@@ -30,8 +30,6 @@ export default {
   methods: {
     chartClick(chartKey) {
       console.log(`app模块检测到chart[${chartKey}]被点击了`);
-      this.leftData.shift();
-      console.log(this.leftData);
     }
   }
 }
