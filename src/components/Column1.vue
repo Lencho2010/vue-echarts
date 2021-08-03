@@ -21,7 +21,7 @@ export default {
     return {
       myStyl:{
         width: "100%",//宽高设置来自于配置文件，此处设置默认值
-        "height": "350px"
+        "height": "250px"
       },
       chartTitle: "我是column_1标题",
       chartContent: "",

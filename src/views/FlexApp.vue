@@ -4,40 +4,17 @@
     <div class="chart-container">
       <div class="chart-child chart-left" style="background-color: coral;" :style="[flexStyle.leftStyle]">
         <div class="chart-component w-full" v-for="(val,index) of leftData">
-          <component :chartClick="chartClick" :chart-key="val.key" ref="child" :is="val.name">
-            <template slot="title" slot-scope="comTitle">
-              <chart-title :title-tag="val.title" :title-data="comTitle.title"></chart-title>
-            </template>
-            <template v-if="val.showMenu" v-slot:menu>
-              <menu-tool></menu-tool>
-            </template>
-          </component>
+         <chart-model :chart-data="val"></chart-model>
         </div>
       </div>
-
       <div class="chart-child chart-center" style="background-color: aqua;" :style="[flexStyle.centerStyle]">
         <div class="chart-component w-full" v-for="(val,index) of centerData">
-          <component :chart-key="val.key" ref="child" :is="val.name">
-            <template slot="title" slot-scope="comTitle">
-              <chart-title :title-tag="val.title" :title-data="comTitle.title"></chart-title>
-            </template>
-            <template v-if="val.showMenu" v-slot:menu>
-              <menu-tool></menu-tool>
-            </template>
-          </component>
+          <chart-model :chart-data="val"></chart-model>
         </div>
       </div>
-
       <div class="chart-child chart-right" style="background-color: cadetblue;" :style="[flexStyle.rightStyle]">
         <div class="chart-component w-full" v-for="(val,index) of rightData">
-          <component :chart-key="val.key" ref="child" :is="val.name">
-            <template slot="title" slot-scope="comTitle">
-              <chart-title :title-tag="val.title" :title-data="comTitle.title"></chart-title>
-            </template>
-            <template v-if="val.showMenu" v-slot:menu>
-              <menu-tool></menu-tool>
-            </template>
-          </component>
+          <chart-model :chart-data="val"></chart-model>
         </div>
       </div>
     </div>
@@ -46,12 +23,7 @@
 
 <script>
 import TopBar from "../components/TopBar";
-import MenuTool from "../components/MenuTool";
-import ChartTitle from "../components/ChartTitle";
-import Column1 from "../components/Column1";
-import Pie1 from "../components/Pie1";
-import Column2 from "../components/Column2";
-import Column3 from "../components/Column3";
+import ChartModel from "./ChartModel";
 
 export default {
   name: "FlexApp",
@@ -78,7 +50,7 @@ export default {
 
     };
   },
-  components: { TopBar, MenuTool, ChartTitle, Column1, Pie1, Column2, Column3 },
+  components: { ChartModel, TopBar},
   methods: {
     getDataFromServer() {
       return this.$http.get("/data/templateLayoutFlex.json");
@@ -88,10 +60,15 @@ export default {
       const { data: ret } = await this.getDataFromServer();
       console.log(ret);
       this.fullTitle = ret.title;
+      const flexStyle = ret.layout.colStyle;
+      this.flexStyle.leftStyle.width = flexStyle[0];
+      this.flexStyle.centerStyle.width = flexStyle[1];
+      this.flexStyle.rightStyle.width = flexStyle[2];
+      console.log(flexStyle);
       const charts = ret.charts;
-      this.leftData = charts.filter(d => d.layout.region === "left");
-      this.rightData = charts.filter(d => d.layout.region === "right");
-      this.centerData = charts.filter(d => d.layout.region === "center");
+      this.leftData = charts.filter(d => d.region === "left");
+      this.rightData = charts.filter(d => d.region === "right");
+      this.centerData = charts.filter(d => d.region === "center");
     },
 
     chartClick(chartKey) {
@@ -109,11 +86,6 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-}
-
-.fullTitle {
-  display: flex;
-  justify-content: center;
 }
 
 .chart-component {

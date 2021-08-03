@@ -36,10 +36,10 @@ export default {
     },
     async gainData() {
       //通过布局数据中传递过来的key值作为参数从后台请求对应数据
-      console.log(this.chartKey);
+      //console.log(this.chartKey);
       const { data: retData } = await this.gainDataFromServer()
       this.titleData.text = retData.title
-      console.log(this.$refs.chartBody);
+      //console.log(this.$refs.chartBody);
       initChart(this)
     },
 
