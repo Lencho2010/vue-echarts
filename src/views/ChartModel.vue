@@ -36,7 +36,5 @@ export default {
 </script>
 
 <style scoped>
-.chart-component {
-  margin: 5px 0px;
-}
+
 </style>

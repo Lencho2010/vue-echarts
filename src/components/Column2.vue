@@ -29,7 +29,7 @@ export default {
 
 <style scoped>
 .color2 {
-  background-color: burlywood;
+  /*background-color: burlywood;*/
 }
 
 .template {

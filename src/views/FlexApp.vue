@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full">
+  <div class="root-container h-full">
     <top-bar :title="fullTitle"></top-bar>
     <div class="chart-container">
       <div class="chart-child chart-left" style="background-color: coral;" :style="[flexStyle.leftStyle]">
@@ -41,13 +41,12 @@ export default {
           width: "25%"
         },
         centerStyle: {
-          width: "45%"
+          width: "50%"
         },
         rightStyle: {
           width: "25%"
         }
       }
-
     };
   },
   components: { ChartModel, TopBar },
@@ -75,6 +74,11 @@ export default {
 </script>
 
 <style scoped>
+.root-container{
+  padding: 0 5px 5px;
+  box-sizing: border-box;
+}
+
 .chart-container {
   height: calc(100% - 70px);
   display: flex;
@@ -83,7 +87,13 @@ export default {
 }
 
 .chart-component {
-  margin: 5px 0px;
+  padding: 5px 5px;
+  box-sizing: border-box;
+}
+
+.template{
+  border-radius: 10px;
+  background-color: #297380;
 }
 
 .chart-left {

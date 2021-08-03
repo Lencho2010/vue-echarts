@@ -47,7 +47,7 @@ export default {
 <style scoped>
 
 .color3 {
-  background-color: #7054ef;
+  /*background-color: #7054ef;*/
 }
 
 .template {

@@ -30,7 +30,7 @@ export default {
 <style scoped>
 
 .color3 {
-  background-color: darkcyan;
+  /*background-color: darkcyan;*/
 }
 
 .template {

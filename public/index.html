@@ -6,16 +6,33 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <style>
+      #root {
+          min-height: 860px !important;
+          min-width: 1360px !important;
+          background-color: rgb(0, 97, 48) !important;
+      }
+  </style>
 </head>
-<body class="w-full h-full mx0 my0 bg-transparent"
-      style=" height: 1080px!important; background-color: rgb(0, 97, 48)!important">
-<noscript>
-  <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
-    Please enable it to continue.</strong>
-</noscript>
-<div class="bodyContainer w-full h-full mx0 my0">
+<body>
+<div id="root" class="w-full mx0 my0 bg-transparent">
   <div id="app"></div>
-  <!-- built files will be auto injected -->
 </div>
+<script>
+  window.onload = () => {
+    const cont = document.getElementById("root");
+    cont.style.height = window.innerHeight + "px";
+
+    let timer;
+    window.addEventListener("resize", () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        const cont = document.getElementById("root");
+        cont.style.height = window.innerHeight + "px";
+      }, 500);
+    });
+  };
+
+</script>
 </body>
 </html>

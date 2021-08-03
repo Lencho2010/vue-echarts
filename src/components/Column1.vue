@@ -53,7 +53,7 @@ export default {
 }
 
 .color1 {
-  background-color: rgb(6, 135, 158);
+   /*background-color: rgb(6, 135, 158);*/
 }
 
 .chart-body {

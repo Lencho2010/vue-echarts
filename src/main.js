@@ -1,7 +1,7 @@
 import Vue from "vue";
 import axios from "axios";
 // import echarts from "echarts";
-const echarts = require('echarts')
+const echarts = require("echarts");
 
 import App from "./App.vue";
 import router from "./router";
