@@ -16,7 +16,7 @@ export default {
 <style scoped>
 .menu-tool {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 5px;
+  right: 10px;
 }
 </style>
