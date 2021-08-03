@@ -1,27 +1,52 @@
 <template>
   <div class="template color2 h-full w-full">
-    <slot name='title' v-bind:title="titleData">我是默认标题</slot>
-    <slot name='menu'></slot>
-    <div ref="chartBody" class="chart-body">{{chartContent}}</div>
+    <slot name="title" v-bind:title="titleData">我是默认标题</slot>
+    <slot name="menu"></slot>
+    <!--    <pie2 ref="chart"></pie2>-->
+    <component ref="chart" :is="myComponent"></component>
   </div>
 </template>
 
 <script>
+import Pie2 from "./Pie2";
+
 export default {
   name: "Column2",
+  components: { Pie2 },
+  created() {
+  },
   mounted() {
-    this.$bus.$on('hello',data=>{
-      console.log('我是column_2组件，收到了数据：',data)
-    })
+    this.$bus.$on("hello", data => {
+      console.log("我是column_2组件收到了数据：", data);
+    });
+    // this.$router.push({name:'pie2'})
+    this.gainData();
   },
   data() {
     return {
-      chartKey:'',
+      chartKey: "",
       chartTitle: "我是column_2标题",
       chartContent: "我是饼状图",
       titleData: {
-        text: '耕地'
-      }
+        text: "耕地"
+      },
+      myComponent: ''
+    };
+  },
+  methods: {
+    // 异步从后台获取数据
+    gainDataFromServer() {
+      return this.$http.get("/testData/耕地种植属性.json");
+    },
+    async gainData() {
+      const { data: retData } = await this.gainDataFromServer();
+      this.myComponent = 'Pie2';
+      this.$nextTick(()=>{
+        this.$refs.chart.updateChart(retData.data);
+      })
+      // this.$refs.chart.updateChart(retData.data);
+      /*this.myComponent = () => import('./Pie2.vue')
+      console.log(this.myComponent);*/
     }
   }
 };

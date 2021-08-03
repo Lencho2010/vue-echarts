@@ -1,13 +1,8 @@
+import chartResize from "../../util/chartResize";
 export default function (vueInstance, chartOption) {
   const that = vueInstance
   const myChart = that.$echarts.init(that.$refs.chartBody);
-  let timer;
-  window.addEventListener("resize", () => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      myChart.resize();
-    }, 500);
-  });
+  chartResize(myChart);
 
   const option = {
     legend: {

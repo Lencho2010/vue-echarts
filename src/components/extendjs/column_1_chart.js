@@ -1,3 +1,4 @@
+import chartResize from "../../util/chartResize";
 export default function(vueInstance, chartOption) {
   const that = vueInstance;
   const colorList0 = ["rgb(205,85,85)", "rgb(210,105,30)", "rgb(0,139,0)",
@@ -5,13 +6,7 @@ export default function(vueInstance, chartOption) {
 
   const checkedColor = "rgb(255,50,0)";
   const myChart = that.$echarts.init(that.$refs.chartBody);
-  let timer;
-  window.addEventListener("resize", () => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      myChart.resize();
-    }, 500);
-  });
+  chartResize(myChart);
 
   const originData = [5, 20, 36, 10, 10, 20];
 

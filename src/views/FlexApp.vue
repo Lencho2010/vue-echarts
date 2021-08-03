@@ -93,7 +93,7 @@ export default {
 
 .template{
   border-radius: 10px;
-  background-color: #195661;
+  background-color: #01323b;
 }
 
 .chart-left {
