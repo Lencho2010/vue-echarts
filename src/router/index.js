@@ -7,8 +7,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "flex",
-    component: FlexApp
+    redirect: "/flex"
   },
   {
     path: "/flex",
