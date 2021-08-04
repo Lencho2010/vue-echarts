@@ -4,18 +4,30 @@
     <slot name="menu"></slot>
     <!--    <pie2 ref="chart"></pie2>-->
     <component ref="chart" :is="myComponent"></component>
+    <remote-js src="http://localhost:3000/testJs/chartM.js"></remote-js>
   </div>
 </template>
 
 <script>
 import Pie2 from "./Pie2";
-
+//logM()
 export default {
   name: "Column2",
-  components: { Pie2 },
+  components: {
+    "remote-js": {
+      render(h) {
+        return h("script", { attrs: { type: "text/javascript", src: this.src } });
+      },
+      props: {
+        src: { type: String, required: true }
+      }
+    },
+    Pie2
+  },
   created() {
   },
   mounted() {
+
     this.$bus.$on("hello", data => {
       console.log("我是column_2组件收到了数据：", data);
     });
@@ -30,7 +42,7 @@ export default {
       titleData: {
         text: "耕地"
       },
-      myComponent: ''
+      myComponent: ""
     };
   },
   methods: {
@@ -40,13 +52,15 @@ export default {
     },
     async gainData() {
       const { data: retData } = await this.gainDataFromServer();
-      this.myComponent = 'Pie2';
-      this.$nextTick(()=>{
+      this.myComponent = "Pie2";
+      this.$nextTick(() => {
         this.$refs.chart.updateChart(retData.data);
-      })
+      });
       // this.$refs.chart.updateChart(retData.data);
       /*this.myComponent = () => import('./Pie2.vue')
       console.log(this.myComponent);*/
+      console.log(123);
+      logM()
     }
   }
 };

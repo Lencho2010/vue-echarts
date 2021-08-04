@@ -1,14 +1,19 @@
 <template>
-  <div ref="chartBody" class="chart-body">{{ chartContent }}</div>
+    <div ref="chartBody" class="chart-body">{{ chartContent }}</div>
 </template>
 
 <script>
 import chartResize from "../util/chartResize";
 export default {
   name: "Pie2",
+  components: { },
   mounted() {
     this.initChart();
     chartResize(this.myChart);
+    this.$http('http://localhost:3000/testJs/chartM.js').then(({data})=>{
+      eval(data)
+      logM()
+    })
   },
   data() {
     return {
