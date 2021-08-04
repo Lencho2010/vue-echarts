@@ -1,12 +1,13 @@
 <template>
-    <div ref="chartBody" class="chart-body">{{ chartContent }}</div>
+  <div ref="chartBody" class="chart-body">{{ chartContent }}</div>
 </template>
 
 <script>
 import chartResize from "../util/chartResize";
+
 export default {
   name: "Pie2",
-  components: { },
+  components: {},
   mounted() {
     this.initChart();
     chartResize(this.myChart);
@@ -21,7 +22,8 @@ export default {
         },
         series: [
           {
-            // selectedMode: "single",
+            selectedOffset: 10,
+            selectedMode: "single",
             type: "pie",
             radius: ["30%", "60%"],
             avoidLabelOverlap: false,
@@ -29,6 +31,11 @@ export default {
               borderRadius: 5,
               borderColor: "#ccc",
               borderWidth: 2
+            },
+            select: {
+              itemStyle: {
+                color: "rgba(3, 38, 64, 1)"
+              }
             }
           }
         ]
@@ -39,19 +46,31 @@ export default {
     initChart() {
       let chartDom = this.$refs.chartBody;
       this.myChart = this.$echarts.init(chartDom);
+      this.myChart.on("click", this.chartClick);
       this.setOption();
     },
     setOption() {
       this.myChart.setOption(this.chartOption);
     },
-    async updateChart(data) {
+    updateChart(data) {
       const tData = data.map(item => ({
-        ...item, itemStyle: {
+        ...item,
+        selected: false,
+        itemStyle: {
           color: item.color
         }
       }));
       this.chartOption.series[0].data = tData;
       this.setOption();
+    },
+    chartClick({ data, dataIndex }) {
+      const dataArr = this.chartOption.series[0].data;
+      dataArr.forEach((item, index) => {
+        item.selected = index === dataIndex;
+      });
+      dataArr[dataIndex].selected = data.selected = !data.selected;
+      this.setOption();
+      // console.log(data);
     }
   }
 };
@@ -59,11 +78,6 @@ export default {
 
 <style scoped>
 .chart-body {
-  color: #cccccc;
-  text-align: center;
-  vertical-align: middle;
-  line-height: 250px;
-  font-size: 24px;
   width: 100%;
 }
 </style>

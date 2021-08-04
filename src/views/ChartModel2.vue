@@ -25,7 +25,6 @@ export default {
     Pie2, ChartTitle, MenuTool2
   },
   created() {
-    console.log(this.chartData);
     this.chartKey=this.chartData.key
     this.myComponent=this.chartData.name
   },
