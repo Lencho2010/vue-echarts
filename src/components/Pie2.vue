@@ -10,10 +10,6 @@ export default {
   mounted() {
     this.initChart();
     chartResize(this.myChart);
-    /*this.$http('http://localhost:3000/testJs/chartM.js').then(({data})=>{
-      eval(data)
-      logM()
-    })*/
   },
   data() {
     return {
@@ -69,6 +65,5 @@ export default {
   line-height: 250px;
   font-size: 24px;
   width: 100%;
-  height: calc(100% - 20px);
 }
 </style>

@@ -9,7 +9,7 @@
       </div>
       <div class="chart-child chart-center" :style="[flexStyle.centerStyle]">
         <div class="chart-component w-full" :style="[val.layout]" v-for="(val,index) of centerData">
-          <chart-model :chart-data="val"></chart-model>
+          <chart-model2 :chart-data="val"></chart-model2>
         </div>
       </div>
       <div class="chart-child chart-right" :style="[flexStyle.rightStyle]">
@@ -24,6 +24,7 @@
 <script>
 import TopBar from "../components/TopBar";
 import ChartModel from "./ChartModel";
+import ChartModel2 from "./ChartModel2";
 
 export default {
   name: "FlexApp",
@@ -49,7 +50,7 @@ export default {
       }
     };
   },
-  components: { ChartModel, TopBar },
+  components: { ChartModel, TopBar, ChartModel2 },
   methods: {
     getDataFromServer() {
       return this.$http.get("/data/templateLayoutFlex.json");
@@ -74,13 +75,16 @@ export default {
 </script>
 
 <style scoped>
-.root-container{
+.root-container {
   padding: 0 5px 5px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 .chart-container {
-  height: calc(100% - 70px);
+  flex: 1;
+  /*height: calc(100% - 70px);*/
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -91,7 +95,7 @@ export default {
   box-sizing: border-box;
 }
 
-.template{
+.template {
   border-radius: 10px;
   background-color: #01323b;
 }

@@ -29,7 +29,7 @@ export default {
 <style scoped>
 .chart-title {
   text-align: center;
-  line-height: 20px;
+  line-height: 30px;
   font-size: 18px;
   color: rgb(1, 211, 18);
 }
