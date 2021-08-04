@@ -6,7 +6,10 @@
       <div class="titleContent">{{ title }}</div>
       <div class="after-bg"></div>
     </div>
-    <RightMenuBar2 class="right-menu"></RightMenuBar2>
+    <div class="right-menu">
+      <ChartTheme class="chart-theme"></ChartTheme>
+      <RightMenuBar2></RightMenuBar2>
+    </div>
   </div>
 </template>
 
@@ -14,6 +17,7 @@
 import MenuBar from "./MenuBar";
 import RightMenuBar from "./RightMenuBar";
 import RightMenuBar2 from "./RightMenuBar2";
+import ChartTheme from "./ChartTheme";
 
 export default {
   name: "TopBar",
@@ -26,7 +30,8 @@ export default {
   components: {
     RightMenuBar,
     MenuBar,
-    RightMenuBar2
+    RightMenuBar2,
+    ChartTheme
   }
 };
 </script>
@@ -47,6 +52,11 @@ export default {
   position: absolute;
   right: 20px;
   top: 20px;
+  display: flex;
+}
+
+.chart-theme{
+  margin-right: 50px;
 }
 
 .titleContent {

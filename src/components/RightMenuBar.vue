@@ -55,7 +55,7 @@ export default {
 </script>
 
 <style>
-#RightMenuBar .el-input input {
+.el-input input {
   background-color: transparent !important;
 }
 
