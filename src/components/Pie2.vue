@@ -10,10 +10,10 @@ export default {
   mounted() {
     this.initChart();
     chartResize(this.myChart);
-    this.$http('http://localhost:3000/testJs/chartM.js').then(({data})=>{
+    /*this.$http('http://localhost:3000/testJs/chartM.js').then(({data})=>{
       eval(data)
       logM()
-    })
+    })*/
   },
   data() {
     return {

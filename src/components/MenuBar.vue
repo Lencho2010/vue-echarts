@@ -1,5 +1,5 @@
 <template>
-  <div id="menuBar" style="display: flex; z-index: 99999;" class="menuBarContainer">
+  <div id="menuBar" style="display: flex; z-index: 99999;" >
     <a href="javascript:;" @click="clear" class="clear">
       <img class="w18 h18" :src="reloadImg" alt="clear">
     </a>

@@ -4,7 +4,7 @@
     <slot name="menu"></slot>
     <!--    <pie2 ref="chart"></pie2>-->
     <component ref="chart" :is="myComponent"></component>
-    <remote-js src="http://localhost:3000/testJs/chartM.js"></remote-js>
+<!--    <remote-js src="http://localhost:3000/testJs/chartM.js"></remote-js>-->
   </div>
 </template>
 
@@ -59,8 +59,6 @@ export default {
       // this.$refs.chart.updateChart(retData.data);
       /*this.myComponent = () => import('./Pie2.vue')
       console.log(this.myComponent);*/
-      console.log(123);
-      logM()
     }
   }
 };

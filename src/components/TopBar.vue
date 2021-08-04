@@ -1,16 +1,19 @@
 <template>
   <div class="topBarContainer">
-    <menu-bar></menu-bar>
+    <menu-bar class="menuBarContainer"></menu-bar>
     <div class="fullTitle">
       <div class="before-bg"></div>
       <div class="titleContent">{{ title }}</div>
       <div class="after-bg"></div>
     </div>
+    <RightMenuBar2 class="right-menu"></RightMenuBar2>
   </div>
 </template>
 
 <script>
 import MenuBar from "./MenuBar";
+import RightMenuBar from "./RightMenuBar";
+import RightMenuBar2 from "./RightMenuBar2";
 
 export default {
   name: "TopBar",
@@ -21,7 +24,9 @@ export default {
   },
   props: ["title"],
   components: {
-    MenuBar
+    RightMenuBar,
+    MenuBar,
+    RightMenuBar2
   }
 };
 </script>
@@ -30,6 +35,18 @@ export default {
 .topBarContainer {
   height: 70px;
   position: relative;
+}
+
+.menuBarContainer {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.right-menu {
+  position: absolute;
+  right: 20px;
+  top: 20px;
 }
 
 .titleContent {
