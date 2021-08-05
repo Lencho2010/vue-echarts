@@ -1,5 +1,5 @@
 <template>
-  <router-view/>
+  <router-view />
 </template>
 
 <script>
@@ -8,12 +8,13 @@ import "@/assets/css/reset.css";
 import "@/assets/css/public.css";
 
 export default {
-  mounted() { },
-  data() {
-    return { };
+  mounted() {
   },
-  components: { },
-  methods: { }
+  data() {
+    return {};
+  },
+  components: {},
+  methods: {}
 };
 
 </script>

@@ -4,12 +4,15 @@
     <slot name="menu"></slot>
     <!--    <pie2 ref="chart"></pie2>-->
     <component ref="chart" :is="myComponent"></component>
+    <router-view></router-view>
 <!--    <remote-js src="http://localhost:3000/testJs/chartM.js"></remote-js>-->
   </div>
 </template>
 
 <script>
 import Pie2 from "./Pie2";
+import TestRoute from "./TestRoute";
+
 //logM()
 export default {
   name: "Column2",
@@ -25,13 +28,19 @@ export default {
     Pie2
   },
   created() {
+    this.$router.addRoute("flexLayout",{
+      path: "testRoute",
+      name: "testRoute",
+      component: TestRoute
+    })
+    console.log(this.$router.getRoutes());
   },
   mounted() {
 
     this.$bus.$on("hello", data => {
       console.log("我是column_2组件收到了数据：", data);
     });
-    // this.$router.push({name:'pie2'})
+    this.$router.push({name:'testRoute'})
     this.gainData();
   },
   data() {

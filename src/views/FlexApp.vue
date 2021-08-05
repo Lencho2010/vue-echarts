@@ -28,7 +28,9 @@ import ChartModel2 from "./ChartModel2";
 
 export default {
   name: "FlexApp",
+  created() { },
   mounted() {
+    console.log("init flexapp");
     this.initData();
   },
   data() {

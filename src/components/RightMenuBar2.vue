@@ -20,7 +20,7 @@
           ref="tree">
         </el-tree>
       </div>
-      <el-button type="primary" slot="reference">{{ curRegion }}</el-button>
+      <el-button @click="btnClick" type="primary" slot="reference">{{ curRegion }}</el-button>
     </el-popover>
   </div>
 </template>
@@ -35,19 +35,22 @@ export default {
   },
 
   methods: {
+    btnClick() {
+      console.log("btnClick...");
+    },
     filterNode(value, data) {
       if (!value) return true;
       return data.label.indexOf(value) !== -1;
     },
     /*共三个参数，依次为：传递给 data 属性的数组中该节点所对应的对象、节点对应的 Node、节点组件本身。*/
-    nodeClick(data,node,tree){
-      this.curRegion = data.label
+    nodeClick(data, node, tree) {
+      this.curRegion = data.label;
     }
   },
 
   data() {
     return {
-      curRegion:"全国",
+      curRegion: "全国",
       filterText: "",
       data: [{
         id: 1,
@@ -94,14 +97,16 @@ export default {
 </script>
 
 <style>
-.el-popover{
+.el-popover {
   background-color: #297380;
   border-color: aqua;
 }
-#popContainer .el-tree{
+
+#popContainer .el-tree {
   color: #cccccc;
 }
-#popContainer .el-input__inner,.el-tree{
+
+#popContainer .el-input__inner, .el-tree {
   background-color: transparent;
 }
 

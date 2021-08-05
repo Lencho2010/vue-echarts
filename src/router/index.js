@@ -1,7 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import FlexApp from "../views/FlexApp";
 import TheLogin from "../views/TheLogin";
+import TestA from "../views/TestA";
+import TestA1 from "../views/TestA1";
+import TestA2 from "../views/TestA2";
 
 Vue.use(VueRouter);
 
@@ -18,14 +20,25 @@ const routes = [
   {
     path: "/flex",
     name: "flexLayout",
-    component: () =>
-      import("../views/FlexApp.vue")
+    component: () => import("../views/FlexApp.vue")
   },
   {
     path: "/grid",
     name: "gridLayout",
     component: () =>
       import("../views/GridApp.vue")
+  },
+  {
+    path:"/testA",
+    name:"testA",
+    component: TestA,
+    children: [
+      {
+        path:'test',
+        name:'test',
+        components: { default: TestA1, sidebar: TestA2 },
+      }
+    ]
   }
 ];
 
@@ -37,7 +50,7 @@ const router = new VueRouter({
 
 //全局前置路由守卫————初始化的时候被调用、每次路由切换之前被调用
 router.beforeEach((to, from, next) => {
-  console.log("前置路由守卫", to, from);
+  // console.log("前置路由守卫", to, from);
   if (sessionStorage.getItem("user") || to.name === "login") {
     next();
   } else {
