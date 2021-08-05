@@ -3,14 +3,14 @@
 </template>
 
 <script>
-import chartResize from "../util/chartResize";
+import chartResize from "../util/chart-resize";
 
 export default {
   name: "Pie2",
   components: {},
   mounted() {
     this.initChart();
-    chartResize(this.myChart);
+    chartResize(this.myChart, this.$refs.chartBody);
   },
   data() {
     return {
@@ -51,7 +51,7 @@ export default {
     setOption() {
       this.myChart.setOption(this.chartOption);
     },
-    updateChart({data}) {
+    updateChart({ data }) {
       const tData = data.map(item => ({
         ...item,
         selected: false,

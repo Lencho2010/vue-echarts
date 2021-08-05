@@ -3,14 +3,14 @@
 </template>
 
 <script>
-import chartResize from "../util/chartResize";
+import chartResize from "../util/chart-resize.js";
 
 export default {
   name: "Column6",
   components: {},
   mounted() {
     this.initChart();
-    chartResize(this.myChart);
+    chartResize(this.myChart, this.$refs.chartBody);
   },
   data() {
     return {
@@ -38,13 +38,13 @@ export default {
           data: [xAxisName]
         },
         xAxis: {
-          data: param.data.map(item=>item[xAxisName])
+          data: param.data.map(item => item[xAxisName])
         },
         yAxis: {},
         series: [{
           name: xAxisName,
           type: "bar",
-          data: param.data.map(item=>item[yAxisName]),
+          data: param.data.map(item => item[yAxisName]),
           itemStyle: {
             //柱形图圆角，初始化效果
             borderRadius: [5, 5, 0, 0],
