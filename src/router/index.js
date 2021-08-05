@@ -18,6 +18,17 @@ const routes = [
     component: TheLogin
   },
   {
+    path: "/dynamic",
+    name: "dynamic",
+    component: () => import("../views/DynamicApp.vue"),
+    children: [{
+      props: true,
+      path: "root",
+      name: "root",
+      component: () => import("../views/DynamicRoot.vue")
+    }]
+  },
+  {
     path: "/flex",
     name: "flexLayout",
     component: () => import("../views/FlexApp.vue")
@@ -29,14 +40,14 @@ const routes = [
       import("../views/GridApp.vue")
   },
   {
-    path:"/testA",
-    name:"testA",
+    path: "/testA",
+    name: "testA",
     component: TestA,
     children: [
       {
-        path:'test',
-        name:'test',
-        components: { default: TestA1, sidebar: TestA2 },
+        path: "test",
+        name: "test",
+        components: { default: TestA1, sidebar: TestA2 }
       }
     ]
   }

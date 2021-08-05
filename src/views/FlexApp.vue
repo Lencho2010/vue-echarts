@@ -4,7 +4,7 @@
     <div class="chart-container">
       <div class="chart-child chart-left" :style="[flexStyle.leftStyle]">
         <div class="chart-component w-full" :style="[val.layout]" v-for="(val,index) of leftData">
-          <chart-model :chart-data="val"></chart-model>
+          <chart-model2 :chart-data="val"></chart-model2>
         </div>
       </div>
       <div class="chart-child chart-center" :style="[flexStyle.centerStyle]">
@@ -14,7 +14,7 @@
       </div>
       <div class="chart-child chart-right" :style="[flexStyle.rightStyle]">
         <div class="chart-component w-full" :style="[val.layout]" v-for="(val,index) of rightData">
-          <chart-model :chart-data="val"></chart-model>
+          <chart-model2 :chart-data="val"></chart-model2>
         </div>
       </div>
     </div>
@@ -31,7 +31,11 @@ export default {
   created() { },
   mounted() {
     console.log("init flexapp");
-    this.initData();
+    // this.initData("templateDynamic");
+    this.$bus.$on("toggleTheme", data => {
+      console.log("我是DynamicApp组件，收到了数据：", data);
+      this.initData(data);
+    });
   },
   data() {
     return {
@@ -54,12 +58,12 @@ export default {
   },
   components: { ChartModel, TopBar, ChartModel2 },
   methods: {
-    getDataFromServer() {
-      return this.$http.get("/data/templateLayoutFlex.json");
+    getDataFromServer(themeKey) {
+      return this.$http.get(`/data/${themeKey}.json`);
     },
 
-    async initData() {
-      const { data: ret } = await this.getDataFromServer();
+    async initData(themeKey) {
+      const { data: ret } = await this.getDataFromServer(themeKey);
 
       this.fullTitle = ret.title;
       const flexStyle = ret.layout.colStyle;

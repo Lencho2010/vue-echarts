@@ -1,5 +1,5 @@
 <template>
-  <div ref="chartBody" class="chart-body">{{ chartContent }}</div>
+  <div ref="chartBody" class="chart-body"></div>
 </template>
 
 <script>
@@ -14,7 +14,6 @@ export default {
   },
   data() {
     return {
-      chartContent: "我是饼状图2",
       myChart: null,
       chartOption: {
         tooltip: {
@@ -52,7 +51,7 @@ export default {
     setOption() {
       this.myChart.setOption(this.chartOption);
     },
-    updateChart(data) {
+    updateChart({data}) {
       const tData = data.map(item => ({
         ...item,
         selected: false,

@@ -28,19 +28,18 @@ export default {
     Pie2
   },
   created() {
-    this.$router.addRoute("flexLayout",{
+/*    this.$router.addRoute("flexLayout",{
       path: "testRoute",
       name: "testRoute",
       component: TestRoute
     })
-    console.log(this.$router.getRoutes());
+    console.log(this.$router.getRoutes());*/
   },
   mounted() {
 
     this.$bus.$on("hello", data => {
       console.log("我是column_2组件收到了数据：", data);
     });
-    this.$router.push({name:'testRoute'})
     this.gainData();
   },
   data() {

@@ -8,6 +8,7 @@
 
 <script>
 import Pie2 from "../components/Pie2";
+import Column6 from "../components/Column6";
 import ChartTitle from "../components/ChartTitle";
 import MenuTool2 from "../components/MenuTool2";
 
@@ -22,15 +23,15 @@ export default {
         src: { type: String, required: true }
       }
     },
-    Pie2, ChartTitle, MenuTool2
+    Pie2, ChartTitle, MenuTool2, Column6
   },
   created() {
-    this.chartKey=this.chartData.key
-    this.myComponent=this.chartData.name
+    this.chartKey = this.chartData.key;
+    this.myComponent = this.chartData.name;
   },
   mounted() {
     this.$bus.$on("hello", data => {
-      console.log("我是column_2组件收到了数据：", data);
+      console.log("我是ChartModel2组件收到了数据：", data);
     });
     this.gainData();
   },
@@ -53,7 +54,7 @@ export default {
       const { data: retData } = await this.gainDataFromServer();
       this.titleData.text = retData.name;//图表标题
       this.$nextTick(() => {
-        this.$refs.chart.updateChart(retData.data);
+        this.$refs.chart.updateChart(retData);
       });
       /*this.myComponent = () => import('./Pie2.vue')
       console.log(this.myComponent);*/
@@ -68,13 +69,14 @@ export default {
   display: flex;
   flex-direction: column;
 }
+
 .menu-tool {
   position: absolute;
   top: 5px;
   right: 10px;
 }
 
-.chart-comm{
+.chart-comm {
   flex: 1;
 }
 </style>

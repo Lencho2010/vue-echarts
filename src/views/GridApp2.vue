@@ -3,7 +3,7 @@
     <top-bar :title="fullTitle"></top-bar>
     <div class="chart-container" :style="[gridStyle]">
       <div class="chart-component w-full" :style="[val.layout]" v-for="(val,index) of centerData">
-        <chart-model2 :chart-data="val"></chart-model2>
+        <chart-model :chart-data="val"></chart-model>
       </div>
     </div>
   </div>
@@ -11,17 +11,12 @@
 
 <script>
 import TopBar from "../components/TopBar";
-import ChartModel2 from "./ChartModel2";
+import ChartModel from "./ChartModel";
 
 export default {
-  name: "GridApp",
+  name: "GridApp2",
   mounted() {
-    // this.initData();
-    // templateLayoutGrid
-    this.$bus.$on("toggleTheme", data => {
-      console.log("我是DynamicApp组件，收到了数据：", data);
-      this.initData(data + "grid");
-    });
+    this.initData();
   },
   data() {
     return {
@@ -30,14 +25,14 @@ export default {
       gridStyle: {}
     };
   },
-  components: { ChartModel2, TopBar },
+  components: { ChartModel, TopBar },
   methods: {
-    getDataFromServer(themeKey) {
-      return this.$http.get(`/data/${themeKey}.json`);
+    getDataFromServer() {
+      return this.$http.get("/data/templateLayoutGrid.json");
     },
 
-    async initData(themeKey) {
-      const { data: ret } = await this.getDataFromServer(themeKey);
+    async initData() {
+      const { data: ret } = await this.getDataFromServer();
       console.log(ret);
       this.gridStyle = ret.layout;
       this.fullTitle = ret.title;
@@ -51,13 +46,10 @@ export default {
 .root-container {
   padding: 0 5px 5px;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
 }
 
 .chart-container {
   height: calc(100% - 70px);
-  flex: 1;
   display: grid;
 }
 
@@ -68,7 +60,7 @@ export default {
 
 .template {
   border-radius: 10px;
-  background-color: #0f2f34;
+  background-color: #297380;
 }
 
 </style>
