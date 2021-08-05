@@ -56,9 +56,12 @@ export default {
 }
 
 .chart-container {
-  height: calc(100% - 70px);
+  /*height: calc(100% - 70px);*/
+  height: 100%;
+  width: 100%;
   flex: 1;
   display: grid;
+  /*place-content: stretch stretch;*/
 }
 
 .chart-component {

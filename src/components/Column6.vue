@@ -12,6 +12,8 @@ export default {
     this.initChart();
     chartResize(this.myChart, this.$refs.chartBody);
   },
+  beforeDestroy() {
+  },
   data() {
     return {
       myChart: null,
