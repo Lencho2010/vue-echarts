@@ -8,6 +8,7 @@
 
 <script>
 import Pie2 from "../components/Pie2";
+import Pie3 from "../components/Pie3"
 import Column6 from "../components/Column6";
 import ChartTitle from "../components/ChartTitle";
 import MenuTool2 from "../components/MenuTool2";
@@ -23,7 +24,7 @@ export default {
         src: { type: String, required: true }
       }
     },
-    Pie2, ChartTitle, MenuTool2, Column6
+    Pie2, ChartTitle, MenuTool2, Column6,Pie3
   },
   created() {
     this.chartKey = this.chartData.key;

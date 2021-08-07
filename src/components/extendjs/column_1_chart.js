@@ -12,6 +12,7 @@ export default function(vueInstance, chartOption) {
 
   const seriesData = originData.map(d => ({ value: d, isChecked: false }));
 
+
   // 指定图表的配置项和数据
   const option = {
     tooltip: {},
