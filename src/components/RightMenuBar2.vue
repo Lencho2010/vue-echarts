@@ -20,21 +20,71 @@
           ref="tree">
         </el-tree>
       </div>
-      <el-button @click="btnClick" type="primary" slot="reference">{{ curRegion }}</el-button>
+      <el-button @click="btnClick" type="primary" slot="reference">{{ curRegion.label }}</el-button>
     </el-popover>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
   name: "RightMenuBar2",
+  data() {
+    return {
+      curRegion: {},
+      filterText: "",
+      data: [{
+        id: "000000", label: "全国", level: "qg", children: [{
+          id: "110000", level: "sj", label: "北京",
+          children: [{
+            id: "110102", level: "xj", label: "西城区"
+          }, {
+            id: "110107", level: "xj", label: "石景山区"
+          }]
+        }, {
+          id: "120000", level: "sj", label: "天津",
+          children: [{
+            id: "120102", level: "xj", label: "河东区"
+          }, {
+            id: "120116", level: "xj", label: "滨海新区"
+          }]
+        }, {
+          id: "370000", level: "sj", label: "山东",
+          children: [{
+            id: "370200", level: "dsj", label: "青岛"
+          }, {
+            id: "370600", level: "dsj", label: "烟台"
+          }]
+        }]
+      }]
+      ,
+      defaultProps: {
+        children: "children",
+        label: "label"
+      }
+    };
+  },
+  mounted() {
+    this.curRegion = this.data[0];
+  },
   watch: {
     filterText(val) {
       this.$refs.tree.filter(val);
+    },
+    curRegion(val) {
+      // console.log(111, val);
+      // this.$bus.$emit("regionChanged", val);//把当前行政区发布出去
+      console.log(val);
+      this.changeRegion({
+        regionCode: val.id,
+        regionName: val.label,
+        regionLevel: val.level
+      });
     }
   },
-
   methods: {
+    ...mapActions({ changeRegion: "updateRegionInfo" }),
     btnClick() {
       console.log("btnClick...");
     },
@@ -44,55 +94,11 @@ export default {
     },
     /*共三个参数，依次为：传递给 data 属性的数组中该节点所对应的对象、节点对应的 Node、节点组件本身。*/
     nodeClick(data, node, tree) {
-      this.curRegion = data.label;
+      this.curRegion = data;
+      //console.log(data, node, tree);
     }
-  },
-
-  data() {
-    return {
-      curRegion: "全国",
-      filterText: "",
-      data: [{
-        id: 1,
-        label: "北京",
-        children: [{
-          id: 4,
-          label: "北京市",
-          children: [{
-            id: 9,
-            label: "西城区"
-          }, {
-            id: 110107,
-            label: "石景山区"
-          }]
-        }]
-      }, {
-        id: 2,
-        label: "天津",
-        children: [{
-          id: 5,
-          label: "河东区"
-        }, {
-          id: 6,
-          label: "滨海新区"
-        }]
-      }, {
-        id: 3,
-        label: "山东",
-        children: [{
-          id: 7,
-          label: "青岛"
-        }, {
-          id: 8,
-          label: "烟台"
-        }]
-      }],
-      defaultProps: {
-        children: "children",
-        label: "label"
-      }
-    };
   }
+
 };
 </script>
 

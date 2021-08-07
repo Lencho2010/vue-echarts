@@ -1,17 +1,17 @@
 <template>
   <div class="template color2 h-full w-full">
-    <chart-title :title-tag="chartData.title" :title-data="titleData"></chart-title>
-    <menu-tool2 class="menu-tool"></menu-tool2>
-    <component class="chart-comm" ref="chart" :is="myComponent"></component>
+    <chart-title :title-tag="layoutData.title" :title-data="titleData"></chart-title>
+    <menu-tool2 :menu-state="menuState" class="menu-tool"></menu-tool2>
+    <component :layout-data="layoutData" class="chart-comm" ref="chart" :is="chartName"></component>
   </div>
 </template>
 
 <script>
-import Pie2 from "../components/Pie2";
-import Pie3 from "../components/Pie3"
-import Column6 from "../components/Column6";
 import ChartTitle from "../components/ChartTitle";
 import MenuTool2 from "../components/MenuTool2";
+import pie_1 from "../components/pie_1";
+import pie_2 from "../components/pie_2";
+import { mapState } from "vuex";
 
 export default {
   name: "ChartModel2",
@@ -24,41 +24,66 @@ export default {
         src: { type: String, required: true }
       }
     },
-    Pie2, ChartTitle, MenuTool2, Column6,Pie3
+    ChartTitle, MenuTool2, pie_1, pie_2
   },
   created() {
-    this.chartKey = this.chartData.key;
-    this.myComponent = this.chartData.name;
+    this.chartKey = this.layoutData.key;
+    this.chartName = this.layoutData.type;
   },
   mounted() {
     this.$bus.$on("hello", data => {
       console.log("我是ChartModel2组件收到了数据：", data);
     });
-    this.gainData();
+    this.initData();
+    this.$bus.$on("regionChanged", region => {
+      this.initData();
+    });
   },
   data() {
     return {
       chartKey: "",
       titleData: {
-        text: "耕地"
+        text: "耕地22"
       },
-      myComponent: ""
+      chartName: "",
+      gridArea: "",
+      menuState: {
+        canBack: false,
+        canMaximized: true,
+        btnBackClick: this.btnBackClick,
+        btnMaxClick: this.btnMaxClick
+      }
     };
   },
-  props: ["chartData"],//chartData->布局json数据
+  props: ["layoutData", "themeData", "checkCanBack"],//chartData->布局json数据
+  computed: {
+    ...mapState({ regionInfo: "curRegionInfo" })
+  },
   methods: {
     // 异步从后台获取数据
     gainDataFromServer() {
-      return this.$http.get(`/testData/${this.chartKey}.json`);
+      const { themeGroup, themeItem } = this.themeData;
+      return this.$http.get(`/landStatus/${themeGroup}/${themeItem}/${this.chartKey}`, {
+        params: {
+          ...this.regionInfo
+        }
+      });
     },
-    async gainData() {
+    async initData() {
+      this.gridArea = this.layoutData.layout["grid-area"];
+      this.menuState.canBack = this.checkCanBack(this.gridArea);
+
       const { data: retData } = await this.gainDataFromServer();
       this.titleData.text = retData.name;//图表标题
       this.$nextTick(() => {
         this.$refs.chart.updateChart(retData);
       });
-      /*this.myComponent = () => import('./Pie2.vue')
-      console.log(this.myComponent);*/
+    },
+    btnBackClick() {
+      this.$bus.$emit("backClick", this.gridArea);
+    },
+    btnMaxClick() {
+      console.log("max...");
     }
   }
 };

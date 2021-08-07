@@ -2,8 +2,8 @@
   <div id="map" class="root-container h-full">
     <top-bar :title="fullTitle"></top-bar>
     <div class="chart-container" :style="[gridStyle]">
-      <div class="chart-component w-full" :style="[val.layout]" v-for="(val,index) of centerData">
-        <chart-model2 :chart-data="val"></chart-model2>
+      <div class="chart-component w-full" :style="[data.layout]" :key="data.key" v-for="(data,index) of layoutDatas">
+        <chart-model2 :check-can-back="checkCanBack" :layout-data="data" :theme-data="themeData"></chart-model2>
       </div>
     </div>
   </div>
@@ -16,37 +16,63 @@ import ChartModel2 from "./ChartModel2";
 export default {
   name: "GridApp",
   mounted() {
-    // this.initData();
-    // templateLayoutGrid
     this.$bus.$on("toggleTheme", data => {
-      console.log("我是DynamicApp组件，收到了数据：", data);
-      this.initData(data + "grid");
+      console.log("我是GridApp组件，收到了专题数据：", data);
+      this.themeData = data;
+      this.initData();
     });
-
-    // this.initMap()
+    //图表点击跳转对应下一个
+    this.$bus.$on("nextClick", this.pushLayoutData);
+    this.$bus.$on("backClick", this.popLayoutData);
   },
   data() {
     return {
+      themeData: {},
       fullTitle: "全国土地利用结构汇总统计",
-      centerData: [],
+      layoutDatas: [],
       gridStyle: {},
-      map:""
+      map: "",
+      layoutMap: {}
     };
   },
   components: { ChartModel2, TopBar },
   methods: {
-    getDataFromServer(themeKey) {
-      return this.$http.get(`/data/${themeKey}.json`);
+    getDataFromServer() {
+      const { themeGroup, themeItem } = this.themeData;
+      return this.$http.get(`/layout/${themeGroup}/${themeItem}.json`);
     },
+    async initData() {
+      const { data: ret } = await this.getDataFromServer();
+      this.fullTitle = ret.title; // 专题标题
+      const curLayoutModel = ret.mini; // 用配置文件中的mini作为默认布局
 
-    async initData(themeKey) {
-      const { data: ret } = await this.getDataFromServer(themeKey);
       console.log(ret);
-      this.gridStyle = ret.layout;
-      this.fullTitle = ret.title;
-      this.centerData = ret.charts;
+      this.gridStyle = curLayoutModel.layout;
+      this.layoutDatas = curLayoutModel.charts;
     },
-
+    pushLayoutData(layoutData) {
+      const gridArea = layoutData.layout["grid-area"];
+      let index = this.layoutDatas.findIndex(v => v.layout["grid-area"] == gridArea);
+      if (index < 0) return;
+      const oldLayoutData = this.layoutDatas.splice(index, 1, layoutData)[0];
+      if (!this.layoutMap.hasOwnProperty(gridArea))
+        this.layoutMap[gridArea] = [oldLayoutData];
+      else this.layoutMap[gridArea].push(oldLayoutData);
+    },
+    popLayoutData(gridArea) {
+      console.log("popLayoutData:" + gridArea);
+      if (this.layoutMap.hasOwnProperty(gridArea) && this.layoutMap[gridArea].length > 0) {
+        let index = this.layoutDatas.findIndex(v => v.layout["grid-area"] == gridArea);
+        if (index < 0) return;
+        const lastLayoutData = this.layoutMap[gridArea].pop();
+        this.layoutDatas.splice(index, 1, lastLayoutData);
+      }
+    },
+    checkCanBack(gridArea) {
+      if (this.layoutMap.hasOwnProperty(gridArea))
+        return this.layoutMap[gridArea].length > 0;
+      return false;
+    },
     initMap() {
       this.map = L.map("map", {
         center: [40.02404009136253, 116.50641060224784], // 地图中心

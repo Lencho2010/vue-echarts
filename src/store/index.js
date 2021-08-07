@@ -5,6 +5,12 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    curRegionInfo: {
+      regionCode: "",
+      regionName: "",
+      regionLevel: "",
+      curYear: "2019"
+    },
     itemList: [
       {
         itemName: "林地",
@@ -34,6 +40,11 @@ export default new Vuex.Store({
     clearItems(state, val) {
       const len = state.itemList.length;
       state.itemList.splice(0, len);
+    },
+    updateRegionInfo(state, val) {
+      state.curRegionInfo.regionCode = val.regionCode;
+      state.curRegionInfo.regionLevel = val.regionLevel;
+      state.curRegionInfo.regionName = val.regionName;
     }
   },
   actions: {
@@ -49,6 +60,10 @@ export default new Vuex.Store({
       console.log("clearItems");
       context.commit("clearItems", val);
       Vue.prototype.$bus.$emit("hello", "lencho");
+    },
+    updateRegionInfo(context, val) {
+      context.commit("updateRegionInfo", val);
+      Vue.prototype.$bus.$emit("regionChanged", val);
     }
   },
   modules: {}
