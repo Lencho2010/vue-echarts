@@ -48,7 +48,7 @@ export default {
   },
   watch: {
     curValue: function(newVal, oldVal) {
-      console.log(newVal);
+      // console.log(newVal);
       this.$bus.$emit("toggleTheme", newVal);
     }
     /*curValue: {

@@ -46,7 +46,7 @@ export default {
       this.fullTitle = ret.title; // 专题标题
       const curLayoutModel = ret.mini; // 用配置文件中的mini作为默认布局
 
-      console.log(ret);
+      // console.log(ret);
       this.gridStyle = curLayoutModel.layout;
       this.layoutDatas = curLayoutModel.charts;
     },

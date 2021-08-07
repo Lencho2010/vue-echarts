@@ -7,6 +7,7 @@
 
 <script>
 import chartResize from "../util/chart-resize";
+import { hunhe } from "./extendjs/pie_mixin";
 
 export default {
   name: "pie_1",
@@ -22,8 +23,6 @@ export default {
   },
   mounted() {
     this.initChart();
-    console.log(11111, this.layoutData);
-    // this.setOption();
   },
   data() {
     return {
@@ -33,7 +32,7 @@ export default {
     };
   },
   props: ["layoutData"],
-  mixins: [],
+  mixins: [hunhe],
   methods: {
     initChart() {
       let chartDom = this.$refs.chartBody;

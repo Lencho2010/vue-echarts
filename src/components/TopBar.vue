@@ -1,6 +1,6 @@
 <template>
   <div class="topBarContainer">
-    <menu-bar class="menuBarContainer"></menu-bar>
+    <menu-bar v-if="showMenuBar" class="menuBarContainer"></menu-bar>
     <div class="fullTitle">
       <div class="before-bg"></div>
       <div class="titleContent">{{ title }}</div>
@@ -26,7 +26,7 @@ export default {
       //title:"全国土地利用结构汇总统计"
     };
   },
-  props: ["title"],
+  props: ["title", "showMenuBar"],
   components: {
     RightMenuBar,
     MenuBar,
@@ -55,7 +55,7 @@ export default {
   display: flex;
 }
 
-.chart-theme{
+.chart-theme {
   margin-right: 50px;
 }
 

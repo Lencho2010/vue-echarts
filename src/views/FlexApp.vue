@@ -1,6 +1,6 @@
 <template>
   <div class="root-container h-full">
-    <top-bar :title="fullTitle"></top-bar>
+    <top-bar :show-menu-bar="true" :title="fullTitle"></top-bar>
     <div class="chart-container">
       <div class="chart-child chart-left" :style="[flexStyle.leftStyle]">
         <div class="chart-component w-full" :style="[val.layout]" v-for="(val,index) of leftData">
@@ -24,17 +24,19 @@
 <script>
 import TopBar from "../components/TopBar";
 import ChartModel from "./ChartModel";
-import ChartModel2 from "./ChartModel2";
+import ChartModel2 from "./ChartModel2_1";
 
 export default {
   name: "FlexApp",
-  created() { },
+  created() {
+  },
   mounted() {
     console.log("init flexapp");
     // this.initData("templateDynamic");
     this.$bus.$on("toggleTheme", data => {
       console.log("我是DynamicApp组件，收到了数据：", data);
-      this.initData(data);
+      const { themeItem } = data;
+      this.initData(themeItem);
     });
   },
   data() {
@@ -59,6 +61,7 @@ export default {
   components: { ChartModel, TopBar, ChartModel2 },
   methods: {
     getDataFromServer(themeKey) {
+      console.log("themeKey:" + themeKey);
       return this.$http.get(`/data/${themeKey}.json`);
     },
 
