@@ -1,28 +1,18 @@
 <template>
   <div class="w-full">
-    <!--    <remote-js src="http://localhost:3000/testJs/data1006.js"></remote-js>-->
     <div ref="chartBody" class="chart-body"></div>
   </div>
 </template>
 
 <script>
-import chartResize from "../util/chart-resize";
+import { mixinChartResize, mixinGainColor, mixinPieChartClick } from "./extendjs/pie_mixin";
 
 export default {
   name: "pie_2",
-  components: {
-    "remote-js": {
-      render(h) {
-        return h("script", { attrs: { type: "text/javascript", src: this.src } });
-      },
-      props: {
-        src: { type: String, required: true }
-      }
-    }
-  },
   mounted() {
     this.initChart();
   },
+  props: ["layoutData"],
   data() {
     return {
       myChart: null,
@@ -30,16 +20,14 @@ export default {
       chartData: {}
     };
   },
-  mixins: [],
+  mixins: [mixinChartResize, mixinGainColor, mixinPieChartClick],
   methods: {
     initChart() {
-      let chartDom = this.$refs.chartBody;
-      this.myChart = this.$echarts.init(chartDom);
-      chartResize(this.myChart, this.$refs.chartBody);
+      this.myChart = this.$echarts.init(this.$refs.chartBody);
       this.chartOption = {
         tooltip: {
           trigger: "item",
-          formatter: '{b0}: {c0}万亩 {d0}%'
+          formatter: "{b0}: {c0}万亩 {d0}%"
         },
         legend: {
           type: "scroll",
@@ -82,17 +70,6 @@ export default {
     },
     setOption() {
       this.myChart.setOption(this.chartOption);
-    },
-    gainColorByIndex(dataIndex) {
-      return this.chartData.colors[dataIndex];
-    },
-    gainColorByKey(dataKey, xFiled) {
-      return this.chartData.xColors.find(item => item.keys[xFiled] === dataKey).color;
-    },
-    gainColorByParam(dataKey, xFiled, index) {
-      if (this.chartData.colors)
-        return this.gainColorByIndex(index);
-      return this.gainColorByKey(dataKey, xFiled);
     },
     updateChart(chartData) {
       this.chartData = chartData;
