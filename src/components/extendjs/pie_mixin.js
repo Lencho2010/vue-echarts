@@ -26,6 +26,7 @@ const mixinPieChartClick = {
         this.myChart.on("click", this.chartClick);
     });
   },
+  props: ["chartNextClick"],
   methods: {
     chartClick({ data, dataIndex }) {
       console.log("chartClick");
@@ -33,7 +34,9 @@ const mixinPieChartClick = {
         this.chartSelect(data, dataIndex);
       const nextChart = this.layoutData.click.chart;
       if (nextChart) {
-        this.$bus.$emit("nextClick", nextChart);
+        console.log("nextClick:" + nextChart);
+        // this.$bus.$emit("nextClick", nextChart);
+        this.chartNextClick(nextChart);
       }
     },
     chartSelect(data, dataIndex) {

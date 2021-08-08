@@ -2,8 +2,15 @@
   <div id="map" class="root-container h-full">
     <top-bar :title="fullTitle"></top-bar>
     <div class="chart-container" :style="[gridStyle]">
-      <div class="chart-component w-full" :style="[data.layout]" :key="data.key" v-for="(data,index) of layoutDatas">
-        <chart-model2 :check-can-back="checkCanBack" :layout-data="data" :theme-data="themeData"></chart-model2>
+<!--      :class="[{'hidden':!data.active}]"-->
+      <div class="chart-component w-full"  :style="[data.layout]" :key="data.key"
+           v-for="(data,index) of layoutDatas">
+        <chart-model2 :prop-btn-max-click="btnMaxClick"
+                      :prop-btn-back-click="popLayoutData"
+                      :prop-next-click="pushLayoutData"
+                      :check-can-back="checkCanBack"
+                      :layout-data="data"
+                      :theme-data="themeData"></chart-model2>
       </div>
     </div>
   </div>
@@ -23,7 +30,8 @@ export default {
     });
     //图表点击跳转对应下一个
     this.$bus.$on("nextClick", this.pushLayoutData);
-    this.$bus.$on("backClick", this.popLayoutData);
+    /*this.$bus.$on("backClick", this.popLayoutData);
+    this.$bus.$on("maxClick", this.btnMaxClick);*/
   },
   data() {
     return {
@@ -31,7 +39,6 @@ export default {
       fullTitle: "全国土地利用结构汇总统计",
       layoutDatas: [],
       gridStyle: {},
-      map: "",
       layoutMap: {}
     };
   },
@@ -48,9 +55,10 @@ export default {
 
       // console.log(ret);
       this.gridStyle = curLayoutModel.layout;
-      this.layoutDatas = curLayoutModel.charts;
+      this.layoutDatas = curLayoutModel.charts.map(t => ({ ...t, active: true }));
     },
     pushLayoutData(layoutData) {
+      console.log("pushLayoutData", layoutData);
       const gridArea = layoutData.layout["grid-area"];
       let index = this.layoutDatas.findIndex(v => v.layout["grid-area"] == gridArea);
       if (index < 0) return;
@@ -73,19 +81,17 @@ export default {
         return this.layoutMap[gridArea].length > 0;
       return false;
     },
-    initMap() {
-      this.map = L.map("map", {
-        center: [40.02404009136253, 116.50641060224784], // 地图中心
-        zoom: 14, //缩放比列
-        zoomControl: false, //禁用 + - 按钮
-        doubleClickZoom: false, // 禁用双击放大
-        attributionControl: false // 移除右下角leaflet标识
+    btnMaxClick(layoutData) {
+      const gridArea = layoutData.layout["grid-area"];
+      const findGrid = this.layoutDatas.find(v => v.layout["grid-area"] == gridArea);
+      this.layoutDatas.forEach(t => {
+        t.active = t.layout["grid-area"] == gridArea;
       });
-      let name = L.tileLayer(
-        // "http://mt0.google.cn/vt/lyrs=y@160000000&hl=zh-CN&gl=CN&src=app&y={y}&x={x}&z={z}&s=Ga",
-        "http://192.168.102.200:8066/ime-cloud/rest/IMG_QG_2019/wmts/1.0.0/调查底图影像2019/undefined/guobiao/{z}/{y}/{x}"
-      ).addTo(this.map);
-      //   this.map.removeLayer(name)  // 移除图层
+      findGrid.layout = layoutData.maxItem.layout;
+      findGrid.layout["grid-area"] = "3 / 1 / 4 / 5";
+      console.log(layoutData.maxItem);
+      /*this.gridStyle = curLayoutModel.layout;
+      this.layoutDatas = curLayoutModel.charts.map(t => ({ ...t, active: true }));*/
     }
   }
 };

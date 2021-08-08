@@ -40,6 +40,12 @@ const routes = [
       import("../views/GridApp.vue")
   },
   {
+    path: "/gridNew",
+    name: "gridNew",
+    component: () =>
+      import("../views/GridAppNewContainer.vue")
+  },
+  {
     path: "/testA",
     name: "testA",
     component: TestA,
@@ -50,6 +56,21 @@ const routes = [
         components: { default: TestA1, sidebar: TestA2 }
       }
     ]
+  },
+  {
+    path: "/home",
+    name: "home",
+    component: () => import("../components/LenchoHome.vue")
+  },
+  {
+    path: "/chartHome",
+    name: "chartHome",
+    component: () => import("../components/chartTree/LenchoChartHome.vue")
+  },
+  {
+    path: "/chartHome2",
+    name: "chartHome2",
+    component: () => import("../components/chartTree/LenchoChartHome2.vue")
   }
 ];
 
@@ -62,7 +83,7 @@ const router = new VueRouter({
 //全局前置路由守卫————初始化的时候被调用、每次路由切换之前被调用
 router.beforeEach((to, from, next) => {
   // console.log("前置路由守卫", to, from);
-  if (sessionStorage.getItem("user") || to.name === "login") {
+  if (sessionStorage.getItem("token") || to.name === "login") {
     next();
   } else {
     router.push("/login");
