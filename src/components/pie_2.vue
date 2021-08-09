@@ -72,6 +72,7 @@ export default {
       this.myChart.setOption(this.chartOption);
     },
     updateChart(chartData) {
+      console.log("updateChart:", chartData);
       this.chartData = chartData;
       const [xAxis] = chartData.xAxis;
       const [yAxis1, yAxis2] = chartData.yAxis;

@@ -1,14 +1,17 @@
 <template>
-  <div class="chart-container" :style="[gridStyle]">
+  <div ref="grid" class="chart-container" :style="[gridStyle]">
     <chart-model2 class="chart-component w-full"
                   :key="data.key"
+                  ref="refchild"
                   v-for="(data,index) of layoutDatas"
                   :prop-btn-max-click="btnMaxClick"
                   :prop-btn-back-click="popLayoutData"
                   :prop-next-click="pushLayoutData"
                   :check-can-back="checkCanBack"
                   :layout-data="data"
-                  :theme-data="themeData"></chart-model2>
+                  :theme-data="themeData">
+      <grid-app-new :theme-data="themeData"></grid-app-new>
+    </chart-model2>
   </div>
 </template>
 
@@ -24,10 +27,11 @@ export default {
     return {
       layoutDatas: [],
       gridStyle: {},
-      layoutMap: {}
+      layoutMap: {},
+      showChild: false
     };
   },
-  props:["themeData"],
+  props: ["themeData"],
   components: { ChartModel2 },
   methods: {
     initData(layoutModel) {
@@ -60,6 +64,18 @@ export default {
       return false;
     },
     btnMaxClick(layoutData) {
+      const gridArea = layoutData.layout["grid-area"];
+      const findGrid = this.layoutDatas.find(v => v.layout["grid-area"] == gridArea);
+      const newGridArea = this.gainGridArea(this.$refs.grid);
+      findGrid.layout["grid-area"] = newGridArea;
+    },
+    gainGridArea(domEle) {
+      console.log(this.$refs.grid);
+      const gridRows = window.getComputedStyle(domEle).getPropertyValue("grid-template-rows");
+      const gridRowCount = gridRows.split(" ").length;
+      const gridCols = window.getComputedStyle(domEle).getPropertyValue("grid-template-columns");
+      const gridColCount = gridCols.split(" ").length;
+      return `1 / 1 / ${gridRowCount + 1} /${gridColCount + 1}`;
     }
   }
 };
@@ -67,17 +83,18 @@ export default {
 
 <style scoped>
 .chart-container {
-  height: calc(100% - 70px);
-  /*height: 100%;*/
+  height: 100%;
   width: 100%;
-  flex: 1;
   display: grid;
   place-content: stretch stretch;
+  /*  grid-gap: 10px;
+    box-sizing: border-box;*/
 }
 
 .chart-component {
   padding: 5px 5px;
   box-sizing: border-box;
+  /*background-color: #481552;*/
 }
 
 </style>

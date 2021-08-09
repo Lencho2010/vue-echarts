@@ -1,6 +1,6 @@
 <template>
   <div class="h-full w-full" :style="[layoutData.layout]">
-    <div v-show="itemList.length<1" class="template h-full w-full">
+    <div v-show="!showChild" class="template h-full w-full">
       <chart-title :title-tag="layoutData.title" :title-data="titleData"></chart-title>
       <menu-tool2 :menu-state="menuState" class="menu-tool"></menu-tool2>
       <component :chart-next-click="propNextClick"
@@ -9,13 +9,7 @@
                  class="chart-comm"
                  ref="chart"></component>
     </div>
-<!--    <chart-model2 v-if="itemList.length>0"
-                  v-for="(item,index) of itemList"
-                  :layout-data="item"
-                  :prop-btn-max-click="btnMaxClick"
-                  :prop-btn-back-click="btnBackClick"
-                  :prop-next-click="propNextClick"
-                  :check-can-back="checkCanBack"></chart-model2>-->
+    <slot v-if="showChild"></slot>
   </div>
 </template>
 
@@ -24,6 +18,7 @@ import ChartTitle from "../components/ChartTitle";
 import MenuTool2 from "../components/MenuTool2";
 import pie_1 from "../components/pie_1";
 import pie_2 from "../components/pie_2";
+import GridAppNew from "./GridAppNew";
 import { mapState } from "vuex";
 
 export default {
@@ -37,7 +32,7 @@ export default {
         src: { type: String, required: true }
       }
     },
-    ChartTitle, MenuTool2, pie_1, pie_2
+    ChartTitle, MenuTool2, pie_1, pie_2, GridAppNew
   },
   created() {
     this.chartKey = this.layoutData.key;
@@ -56,6 +51,7 @@ export default {
   },
   data() {
     return {
+      showChild: false,
       chartKey: "",
       titleData: {
         text: "耕地22"
@@ -67,8 +63,7 @@ export default {
         canMaximized: true,
         btnBackClick: this.btnBackClick,
         btnMaxClick: this.btnMaxClick
-      },
-      itemList: []
+      }
     };
   },
   props: ["layoutData", "themeData",
@@ -103,13 +98,18 @@ export default {
       this.propBtnBackClick(this.gridArea);
     },
     btnMaxClick() {
-      /*console.log('btnMaxClick');
-      const gridArea = this.layoutData.layout["grid-area"];
-      this.itemList = this.layoutData.maxItem.charts;
-      this.layoutData.layout = this.layoutData.maxItem.layout;
-      this.layoutData.layout["grid-area"] = "3 / 1 / 4 / 5";
-      console.log(this.layoutData.maxItem);*/
+      const maxItem = this.layoutData.maxItem;
+      console.log("maxItem:", maxItem);
+      // 判断最大化是否响应
+      if (!maxItem || !maxItem.charts || maxItem.charts.lenght < 1) return;
       this.propBtnMaxClick(this.layoutData);
+      this.showChild = true;
+
+      this.$nextTick(() => {
+        const containerInstance = this.$slots.default[0].context;
+        containerInstance?.initData(maxItem);
+      });
+
     }
   }
 };
@@ -120,6 +120,8 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
+  border-radius: 10px;
+  background-color: #0f2f34;
 }
 
 .menu-tool {
@@ -130,10 +132,5 @@ export default {
 
 .chart-comm {
   flex: 1;
-}
-
-.template {
-  border-radius: 10px;
-  background-color: #0f2f34;
 }
 </style>

@@ -1,7 +1,9 @@
 <template>
   <div class="root-container h-full">
     <top-bar :title="fullTitle"></top-bar>
-    <grid-app-new ref="grid" :theme-data="themeData"></grid-app-new>
+    <div class="chart-container">
+      <grid-app-new ref="grid" :theme-data="themeData"></grid-app-new>
+    </div>
   </div>
 </template>
 
@@ -50,17 +52,10 @@ export default {
 }
 
 .chart-container {
-  height: calc(100% - 70px);
+  /*height: calc(100% - 70px);*/
   /*height: 100%;*/
-  width: 100%;
   flex: 1;
-  display: grid;
-  place-content: stretch stretch;
-}
-
-.chart-component {
-  padding: 5px 5px;
-  box-sizing: border-box;
+  width: 100%;
 }
 
 </style>

@@ -51,7 +51,7 @@ const mixinPieChartClick = {
       return this.layoutData.click.canSelect ? "single" : "false";
     },
     checkCanClick() {
-      console.log("layoutData:" + this.layoutData);
+      console.log("layoutData:", this.layoutData);
       return this.layoutData.click.canClick;
     }
   }
