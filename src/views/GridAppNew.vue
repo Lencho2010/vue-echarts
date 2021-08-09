@@ -5,7 +5,7 @@
                type="primary" size="mini"
                icon="el-icon-d-arrow-left"
                title="返回"></el-button>
-    <chart-model2 class="chart-component w-full"
+    <chart-model2 class="chart-component w-full" :class="[{'grid-gap':nextLayouts.length+1 === depth}]"
                   v-show="data.active"
                   :key="data.key"
                   v-for="(data,index) of layoutDatas"
@@ -117,13 +117,18 @@ export default {
   width: 100%;
   display: grid;
   place-content: stretch stretch;
+  /*grid-gap: 10px;*/
   /*  grid-gap: 10px;
     box-sizing: border-box;*/
   position: relative;
 }
 
-.chart-component {
+.grid-gap {
   padding: 5px 5px;
+}
+
+.chart-component {
+  /*padding: 5px 5px;*/
   box-sizing: border-box;
   /*background-color: #481552;*/
 }
