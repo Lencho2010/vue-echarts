@@ -6,7 +6,7 @@
                icon="el-icon-d-arrow-left"
                title="返回"></el-button>
     <chart-model2 class="chart-component w-full" :class="[{'grid-gap':nextLayouts.length+1 === depth}]"
-                  v-show="data.active"
+                  v-show="!data.hidden"
                   :key="data.key"
                   v-for="(data,index) of layoutDatas"
                   :prop-btn-max-click="btnMaxClick"
@@ -50,7 +50,7 @@ export default {
     initData(layoutModel) {
       this.curLayoutModel = layoutModel;
       this.gridStyle = this.curLayoutModel.layout;
-      this.layoutDatas = this.curLayoutModel.charts.map(t => ({ ...t, active: true }));
+      this.layoutDatas = this.curLayoutModel.charts.map(t => ({ ...t }));
     },
     pushLayoutData(layoutData) {
       console.log("pushLayoutData", layoutData);
@@ -79,7 +79,7 @@ export default {
     btnMaxClick(layoutData, childInstance) {
       const gridArea = layoutData.layout["grid-area"];
       const findGrid = this.layoutDatas.find(v => v.layout["grid-area"] == gridArea);
-      this.layoutDatas.forEach(item => item.active = item.layout["grid-area"] == gridArea);
+      this.layoutDatas.forEach(item => item.hidden = item.layout["grid-area"] != gridArea);
       const newGridArea = this.gainGridArea(this.$refs.grid);
       findGrid.layout["grid-area"] = newGridArea;
 
@@ -105,7 +105,7 @@ export default {
       const { findGrid, gridArea, childInstance, layoutDatas } = this.nextLayouts.pop();
       findGrid.layout["grid-area"] = gridArea;
       childInstance.showChild = false;
-      layoutDatas.forEach(item => item.active = true);
+      layoutDatas.forEach(item => item.hidden = false);
     }
   }
 };

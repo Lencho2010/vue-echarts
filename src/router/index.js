@@ -10,7 +10,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    redirect: "/grid"
+    redirect: "/gridNew"
   },
   {
     path: "/login",
