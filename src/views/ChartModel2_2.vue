@@ -45,9 +45,10 @@ export default {
       console.log("我是ChartModel2组件收到了数据：", data);
     });
     this.initData();
-    this.$bus.$on("regionChanged", region => {
-      this.initData();
-    });
+    this.$bus.$on("regionChanged", this.initData);
+  },
+  beforeDestroy() {
+    this.$bus.$off("regionChanged", this.initData);
   },
   data() {
     return {
@@ -90,7 +91,7 @@ export default {
       const { data: retData } = await this.gainDataFromServer();
       this.titleData.text = retData.name;//图表标题
       this.$nextTick(() => {
-        this.$refs.chart?.updateChart(retData);
+        this.$refs.chart.updateChart(retData);
       });
     },
     btnBackClick() {
