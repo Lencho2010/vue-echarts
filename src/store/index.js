@@ -28,7 +28,8 @@ export default new Vuex.Store({
         itemName: "耕地",
         id: "4"
       }
-    ]
+    ],
+    nextLayouts: []
   },
   mutations: {
     addItem(state, val) {
@@ -45,6 +46,12 @@ export default new Vuex.Store({
       state.curRegionInfo.regionCode = val.regionCode;
       state.curRegionInfo.regionLevel = val.regionLevel;
       state.curRegionInfo.regionName = val.regionName;
+    },
+    pushNextLayout(state, val) {
+      state.nextLayouts.push(val);
+    },
+    popNextLayout(state, val) {
+      return state.nextLayouts.pop();
     }
   },
   actions: {
@@ -64,7 +71,16 @@ export default new Vuex.Store({
     updateRegionInfo(context, val) {
       context.commit("updateRegionInfo", val);
       Vue.prototype.$bus.$emit("regionChanged", val);
+    },
+    pushNextLayout(context, val) {
+      context.commit("pushNextLayout", val);
+    },
+    popNextLayout(context, val) {
+      return context.commit("popNextLayout", val);
     }
+  },
+  getters:{
+
   },
   modules: {}
 });

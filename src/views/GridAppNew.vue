@@ -1,7 +1,12 @@
 <template>
-  <div ref="grid" class="chart-container" :style="[gridStyle]">
+  <div id="gridApp" ref="grid" class="chart-container" :style="[gridStyle]">
+    <el-button circle v-if="depth>1 && nextLayouts.length+1 === depth" class="btn-back"
+               @click="btnBackClick"
+               type="primary" size="mini"
+               icon="el-icon-d-arrow-left"
+               title="返回"></el-button>
     <chart-model2 class="chart-component w-full"
-                  v-if="data.active"
+                  v-show="data.active"
                   :key="data.key"
                   v-for="(data,index) of layoutDatas"
                   :prop-btn-max-click="btnMaxClick"
@@ -10,13 +15,14 @@
                   :check-can-back="checkCanBack"
                   :layout-data="data"
                   :theme-data="themeData">
-      <grid-app-new :theme-data="themeData"></grid-app-new>
+      <grid-app-new :depth="depth+1" :theme-data="themeData"></grid-app-new>
     </chart-model2>
   </div>
 </template>
 
 <script>
 import ChartModel2 from "./ChartModel2_2";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "GridAppNew",
@@ -31,9 +37,16 @@ export default {
       showChild: false
     };
   },
-  props: ["themeData"],
+  props: ["themeData", "depth"],
+  computed: {
+    ...mapState(["nextLayouts"]),
+    thisDepth() {
+      return this.depth + 1;
+    }
+  },
   components: { ChartModel2 },
   methods: {
+    ...mapActions(["pushNextLayout", "popNextLayout"]),
     initData(layoutModel) {
       this.curLayoutModel = layoutModel;
       this.gridStyle = this.curLayoutModel.layout;
@@ -63,12 +76,14 @@ export default {
         return this.layoutMap[gridArea].length > 0;
       return false;
     },
-    btnMaxClick(layoutData) {
+    btnMaxClick(layoutData, childInstance) {
       const gridArea = layoutData.layout["grid-area"];
       const findGrid = this.layoutDatas.find(v => v.layout["grid-area"] == gridArea);
       this.layoutDatas.forEach(item => item.active = item.layout["grid-area"] == gridArea);
       const newGridArea = this.gainGridArea(this.$refs.grid);
       findGrid.layout["grid-area"] = newGridArea;
+
+      this.pushNextLayout({ findGrid, gridArea, childInstance, layoutDatas: this.layoutDatas });
     },
     gainGridArea(domEle) {
       console.log(this.$refs.grid);
@@ -77,6 +92,20 @@ export default {
       const gridCols = window.getComputedStyle(domEle).getPropertyValue("grid-template-columns");
       const gridColCount = gridCols.split(" ").length;
       return `1 / 1 / ${gridRowCount + 1} /${gridColCount + 1}`;
+    },
+    /*btnMaxClick(layoutData, slotInstance) {
+      const gridArea = layoutData.layout["grid-area"];
+      const findGrid = this.layoutDatas.find(v => v.layout["grid-area"] == gridArea);
+      this.layoutDatas.forEach(item => item.active = item.layout["grid-area"] == gridArea);
+      const newGridArea = this.gainGridArea(this.$refs.grid);
+      findGrid.layout["grid-area"] = newGridArea;
+      slotInstance?.initData(layoutData.maxItem);
+    },*/
+    btnBackClick() {
+      const { findGrid, gridArea, childInstance, layoutDatas } = this.nextLayouts.pop();
+      findGrid.layout["grid-area"] = gridArea;
+      childInstance.showChild = false;
+      layoutDatas.forEach(item => item.active = true);
     }
   }
 };
@@ -90,12 +119,22 @@ export default {
   place-content: stretch stretch;
   /*  grid-gap: 10px;
     box-sizing: border-box;*/
+  position: relative;
 }
 
 .chart-component {
   padding: 5px 5px;
   box-sizing: border-box;
   /*background-color: #481552;*/
+}
+
+#gridApp .btn-back {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 10px;
+  right: 10px;
+  z-index: 99;
 }
 
 </style>

@@ -100,21 +100,29 @@ export default {
     },
     btnMaxClick() {
       const maxItem = this.layoutData.maxItem;
-      console.log("maxItem:", maxItem);
       // 判断最大化是否响应
       if (!maxItem || !maxItem.charts || maxItem.charts.lenght < 1) return;
-      this.propBtnMaxClick(this.layoutData);
       this.showChild = true;
+      this.propBtnMaxClick(this.layoutData, this);
 
       this.$nextTick(() => {
-        console.log(this.$slots);
+        // console.log(this.$slots);
         // const containerInstance = this.$slots.default[0].context;
         const containerInstance = this.$slots.default[0].child;
-        console.log("containerInstance", containerInstance);
         containerInstance?.initData(maxItem);
       });
-
     }
+    /*btnMaxClick() {
+      const maxItem = this.layoutData.maxItem;
+      if (!maxItem || !maxItem.charts || maxItem.charts.lenght < 1) return;
+
+      // 传递给父级响应
+      this.showChild = true;
+      this.$nextTick(() => {
+        const slotInstance = this.$slots.default[0].child;
+        this.propBtnMaxClick(this.layoutData, slotInstance);
+      });
+    }*/
   }
 };
 </script>

@@ -2,7 +2,7 @@
   <div class="root-container h-full">
     <top-bar :title="fullTitle"></top-bar>
     <div class="chart-container">
-      <grid-app-new ref="grid" :theme-data="themeData"></grid-app-new>
+      <grid-app-new :depth="1" ref="grid" :theme-data="themeData"></grid-app-new>
     </div>
   </div>
 </template>
