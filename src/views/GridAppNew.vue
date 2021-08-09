@@ -1,8 +1,8 @@
 <template>
   <div ref="grid" class="chart-container" :style="[gridStyle]">
     <chart-model2 class="chart-component w-full"
+                  v-if="data.active"
                   :key="data.key"
-                  ref="refchild"
                   v-for="(data,index) of layoutDatas"
                   :prop-btn-max-click="btnMaxClick"
                   :prop-btn-back-click="popLayoutData"
@@ -66,6 +66,7 @@ export default {
     btnMaxClick(layoutData) {
       const gridArea = layoutData.layout["grid-area"];
       const findGrid = this.layoutDatas.find(v => v.layout["grid-area"] == gridArea);
+      this.layoutDatas.forEach(item => item.active = item.layout["grid-area"] == gridArea);
       const newGridArea = this.gainGridArea(this.$refs.grid);
       findGrid.layout["grid-area"] = newGridArea;
     },

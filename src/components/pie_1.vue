@@ -33,7 +33,7 @@ export default {
         legend: {
           type: "scroll",
           top: "center",
-          left: "50%",
+          left: "60%",
           orient: "vertical",
           textStyle: {
             color: "#ccc",

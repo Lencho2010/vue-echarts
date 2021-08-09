@@ -90,7 +90,7 @@ export default {
       const { data: retData } = await this.gainDataFromServer();
       this.titleData.text = retData.name;//图表标题
       this.$nextTick(() => {
-        this.$refs.chart.updateChart(retData);
+        this.$refs.chart?.updateChart(retData);
       });
     },
     btnBackClick() {
@@ -106,7 +106,10 @@ export default {
       this.showChild = true;
 
       this.$nextTick(() => {
-        const containerInstance = this.$slots.default[0].context;
+        console.log(this.$slots);
+        // const containerInstance = this.$slots.default[0].context;
+        const containerInstance = this.$slots.default[0].child;
+        console.log("containerInstance", containerInstance);
         containerInstance?.initData(maxItem);
       });
 
