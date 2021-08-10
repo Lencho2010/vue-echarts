@@ -72,7 +72,8 @@ export default {
         btnBackClick: this.btnBackClick,
         btnMaxClick: this.btnMaxClick
       },
-      childParams: {}
+      childParams: {},
+      chartTitle: {}
     };
   },
   props: ["layoutData", "themeData",
@@ -98,6 +99,7 @@ export default {
       this.menuState.canBack = this.checkCanBack(this.gridArea);
       this.menuState.canMaximized = this.layoutData.canMaximized;
       this.childParams = this.layoutData.params;
+      this.chartTitle = this.layoutData.title;
 
       const { data: retData } = await this.gainDataFromServer();
       this.titleData.text = retData.name;//图表标题
@@ -137,12 +139,25 @@ export default {
     }*/
     unitSelect(item) {
       console.log(item);
+      // 子组件进行单位切换
+      this.$refs.chart.unitSelect?.call(null);
     },
     chartTitleClick(titleData) {
       console.log(titleData);
       this.propChartTitleClick?.call(null, titleData);
     }
-
+  },
+  watch: {
+    chartTitle: {
+      handler(newVal, oldVal) {
+        console.log("chartTitle changed....", newVal);
+        if(this.$refs.chart.titleCheck){
+          this.$refs.chart.titleCheck();
+        }
+      },
+      immediate: false,
+      deep: true
+    }
   }
 };
 </script>
