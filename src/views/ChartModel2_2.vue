@@ -1,14 +1,17 @@
 <template>
   <div class="h-full w-full" :style="[layoutData.layout]">
-      <div v-show="!showChild" class="template h-full w-full">
-        <chart-title :title-tag="layoutData.title" :title-data="titleData"></chart-title>
-        <menu-tool2 :menu-state="menuState" class="menu-tool"></menu-tool2>
-        <component :chart-next-click="propNextClick"
-                   :layout-data="layoutData"
-                   :is="chartName"
-                   class="chart-comm"
-                   ref="chart"></component>
-      </div>
+    <div v-show="!showChild" class="template h-full w-full">
+      <chart-title :chart-title-click="chartTitleClick"
+                   :title-tag="layoutData.title"
+                   :title-data="titleData"></chart-title>
+      <area-unit :unit-select="unitSelect"></area-unit>
+      <menu-tool2 :menu-state="menuState" class="menu-tool"></menu-tool2>
+      <component :chart-next-click="propNextClick"
+                 :layout-data="layoutData"
+                 :is="chartName"
+                 class="chart-comm"
+                 ref="chart"></component>
+    </div>
     <slot v-if="showChild"></slot>
   </div>
 </template>
@@ -16,17 +19,13 @@
 <script>
 import ChartTitle from "../components/ChartTitle";
 import MenuTool2 from "../components/MenuTool2";
-import pie_1 from "../components/pie_1";
-import pie_2 from "../components/pie_2";
-import column_4 from "../components/column_4";
-import column_6 from "../components/column_6";
-import Table1 from "../components/Table1";
-import GridAppNew from "./GridAppNew";
+import AreaUnit from "../components/AreaUnit";
 import { mapState } from "vuex";
 
 export default {
   name: "ChartModel2",
   components: {
+    AreaUnit,
     "remote-js": {
       render(h) {
         return h("script", { attrs: { type: "text/javascript", src: this.src } });
@@ -35,7 +34,12 @@ export default {
         src: { type: String, required: true }
       }
     },
-    ChartTitle, MenuTool2, pie_1, pie_2, GridAppNew, column_4, Table1, column_6
+    ChartTitle, MenuTool2,
+    "pie_1": () => import("../components/pie_1"),
+    "pie_2": () => import("../components/pie_2"),
+    "column_4": () => import("../components/column_4"),
+    "column_6": () => import("../components/column_6"),
+    "Table1": () => import("../components/Table1")
   },
   created() {
     this.chartKey = this.layoutData.key;
@@ -68,12 +72,13 @@ export default {
         btnBackClick: this.btnBackClick,
         btnMaxClick: this.btnMaxClick
       },
-      childParams:{}
+      childParams: {}
     };
   },
   props: ["layoutData", "themeData",
     "checkCanBack", "propBtnBackClick",
-    "propBtnMaxClick", "propNextClick"],
+    "propBtnMaxClick", "propNextClick",
+    "propChartTitleClick"],
   computed: {
     ...mapState({ regionInfo: "curRegionInfo" })
   },
@@ -96,6 +101,7 @@ export default {
 
       const { data: retData } = await this.gainDataFromServer();
       this.titleData.text = retData.name;//图表标题
+      this.titleData.key = retData.key;
       this.$nextTick(() => {
         this.$refs.chart.updateChart(retData);
       });
@@ -117,7 +123,7 @@ export default {
         const containerInstance = this.$slots.default[0].child;
         containerInstance?.initData(maxItem);
       });
-    }
+    },
     /*btnMaxClick() {
       const maxItem = this.layoutData.maxItem;
       if (!maxItem || !maxItem.charts || maxItem.charts.lenght < 1) return;
@@ -129,6 +135,14 @@ export default {
         this.propBtnMaxClick(this.layoutData, slotInstance);
       });
     }*/
+    unitSelect(item) {
+      console.log(item);
+    },
+    chartTitleClick(titleData) {
+      console.log(titleData);
+      this.propChartTitleClick?.call(null, titleData);
+    }
+
   }
 };
 </script>

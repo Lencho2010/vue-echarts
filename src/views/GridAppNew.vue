@@ -6,18 +6,19 @@
                icon="el-icon-d-arrow-left"
                title="返回"></el-button>
 
-      <chart-model2 class="chart-component w-full" :class="[{'grid-gap':nextLayouts.length+1 === depth}]"
-                    v-show="!data.hidden"
-                    :key="data.key"
-                    v-for="(data,index) of layoutDatas"
-                    :prop-btn-max-click="btnMaxClick"
-                    :prop-btn-back-click="popLayoutData"
-                    :prop-next-click="pushLayoutData"
-                    :check-can-back="checkCanBack"
-                    :layout-data="data"
-                    :theme-data="themeData">
-        <grid-app-new :depth="depth+1" :theme-data="themeData"></grid-app-new>
-      </chart-model2>
+    <chart-model2 class="chart-component w-full" :class="[{'grid-gap':nextLayouts.length+1 === depth}]"
+                  v-show="!data.hidden"
+                  :key="data.key"
+                  v-for="(data,index) of layoutDatas"
+                  :prop-btn-max-click="btnMaxClick"
+                  :prop-btn-back-click="popLayoutData"
+                  :prop-next-click="pushLayoutData"
+                  :check-can-back="checkCanBack"
+                  :layout-data="data"
+                  :prop-chart-title-click="chartTitleClick"
+                  :theme-data="themeData">
+      <grid-app-new :depth="depth+1" :theme-data="themeData"></grid-app-new>
+    </chart-model2>
   </div>
 </template>
 
@@ -107,6 +108,15 @@ export default {
       findGrid.layout["grid-area"] = gridArea;
       childInstance.showChild = false;
       layoutDatas.forEach(item => item.hidden = false);
+    },
+    chartTitleClick({ key, isChecked }) {
+      console.log(key);
+      console.log(isChecked);
+      if (isChecked) {
+        this.layoutDatas.forEach(v => v.title.isChecked = v.key == key);
+      }
+      console.log(this.layoutDatas.map(t => t.key));
+      console.log(this.layoutDatas.map(t => t.title));
     }
   }
 };

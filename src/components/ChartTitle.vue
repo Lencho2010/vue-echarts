@@ -1,6 +1,6 @@
 <template>
   <div @click="titleClick" class="chart-title"
-       :class="[{'chart-title-checked':isChecked},{'chart-title-click':isCanClick}]">{{ titleData.text }}
+       :class="[{'chart-title-checked':titleTag.isChecked},{'chart-title-click':titleTag.isCanClick}]">{{ titleData.text }}
   </div>
 </template>
 
@@ -10,16 +10,16 @@ export default {
   data() {
     return {
       // titleName: this.titleData.text,
-      isCanClick: this.titleTag.isCanClick,
-      isChecked: this.titleTag.isChecked
+      // isCanClick: this.titleTag.isCanClick,
+      // isChecked: this.titleTag.isChecked
     };
   },
-  props: ["titleData", "titleTag"],
+  props: ["titleData", "titleTag", "chartTitleClick"],
   methods: {
     titleClick() {
-      if (!this.isCanClick) return;
-      console.log(this.titleData);
-      this.titleTag.isChecked = this.isChecked = !this.isChecked;
+      if (!this.titleTag?.isCanClick) return;
+      this.titleTag.isChecked  = !this.titleTag.isChecked;
+      this.chartTitleClick?.call(null, { ...this.titleData, isChecked: this.titleTag.isChecked });
     }
   },
   computed: {}
@@ -34,7 +34,7 @@ export default {
   color: rgb(1, 211, 18);
 }
 
-.chart-title-click{
+.chart-title-click {
   cursor: pointer;
 }
 
