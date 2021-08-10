@@ -6,10 +6,14 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     curRegionInfo: {
-      regionCode: "",
+      /*regionCode: "",
       regionName: "",
       regionLevel: "",
-      curYear: "2019"
+      curYear: "2019"*/
+      xzqhfilter: "",
+      xzqh: "",
+      jb: "",
+      yearfilter: "2019"
     },
     itemList: [
       {
@@ -43,9 +47,9 @@ export default new Vuex.Store({
       state.itemList.splice(0, len);
     },
     updateRegionInfo(state, val) {
-      state.curRegionInfo.regionCode = val.regionCode;
-      state.curRegionInfo.regionLevel = val.regionLevel;
-      state.curRegionInfo.regionName = val.regionName;
+      state.curRegionInfo.xzqhfilter = val.regionCode;
+      state.curRegionInfo.jb = val.regionLevel;
+      state.curRegionInfo.xzqh = val.regionName;
     },
     pushNextLayout(state, val) {
       state.nextLayouts.push(val);

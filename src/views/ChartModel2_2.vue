@@ -1,14 +1,14 @@
 <template>
   <div class="h-full w-full" :style="[layoutData.layout]">
-    <div v-show="!showChild" class="template h-full w-full">
-      <chart-title :title-tag="layoutData.title" :title-data="titleData"></chart-title>
-      <menu-tool2 :menu-state="menuState" class="menu-tool"></menu-tool2>
-      <component :chart-next-click="propNextClick"
-                 :layout-data="layoutData"
-                 :is="chartName"
-                 class="chart-comm"
-                 ref="chart"></component>
-    </div>
+      <div v-show="!showChild" class="template h-full w-full">
+        <chart-title :title-tag="layoutData.title" :title-data="titleData"></chart-title>
+        <menu-tool2 :menu-state="menuState" class="menu-tool"></menu-tool2>
+        <component :chart-next-click="propNextClick"
+                   :layout-data="layoutData"
+                   :is="chartName"
+                   class="chart-comm"
+                   ref="chart"></component>
+      </div>
     <slot v-if="showChild"></slot>
   </div>
 </template>
@@ -18,6 +18,9 @@ import ChartTitle from "../components/ChartTitle";
 import MenuTool2 from "../components/MenuTool2";
 import pie_1 from "../components/pie_1";
 import pie_2 from "../components/pie_2";
+import column_4 from "../components/column_4";
+import column_6 from "../components/column_6";
+import Table1 from "../components/Table1";
 import GridAppNew from "./GridAppNew";
 import { mapState } from "vuex";
 
@@ -32,7 +35,7 @@ export default {
         src: { type: String, required: true }
       }
     },
-    ChartTitle, MenuTool2, pie_1, pie_2, GridAppNew
+    ChartTitle, MenuTool2, pie_1, pie_2, GridAppNew, column_4, Table1, column_6
   },
   created() {
     this.chartKey = this.layoutData.key;
@@ -64,7 +67,8 @@ export default {
         canMaximized: true,
         btnBackClick: this.btnBackClick,
         btnMaxClick: this.btnMaxClick
-      }
+      },
+      childParams:{}
     };
   },
   props: ["layoutData", "themeData",
@@ -79,7 +83,8 @@ export default {
       const { themeGroup, themeItem } = this.themeData;
       return this.$http.get(`/landStatus/${themeGroup}/${themeItem}/${this.chartKey}`, {
         params: {
-          ...this.regionInfo
+          ...this.regionInfo,
+          ...this.childParams
         }
       });
     },
@@ -87,6 +92,7 @@ export default {
       this.gridArea = this.layoutData.layout["grid-area"];
       this.menuState.canBack = this.checkCanBack(this.gridArea);
       this.menuState.canMaximized = this.layoutData.canMaximized;
+      this.childParams = this.layoutData.params;
 
       const { data: retData } = await this.gainDataFromServer();
       this.titleData.text = retData.name;//图表标题
@@ -144,5 +150,14 @@ export default {
 
 .chart-comm {
   flex: 1;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 2s
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active, 2.1.8 版本以下 */
+{
+  opacity: 0
 }
 </style>

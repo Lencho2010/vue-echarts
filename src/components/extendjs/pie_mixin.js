@@ -48,11 +48,11 @@ const mixinPieChartClick = {
       this.setOption();
     },
     checkCanSelect() {
-      return this.layoutData.click.canSelect ? "single" : "false";
+      return (this.layoutData.click && this.layoutData.click.canSelect) ? "single" : "false";
     },
     checkCanClick() {
       console.log("layoutData:", this.layoutData);
-      return this.layoutData.click.canClick;
+      return (this.layoutData.click && this.layoutData.click.canClick) ? true : false;
     }
   }
 };

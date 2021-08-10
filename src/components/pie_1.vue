@@ -11,6 +11,9 @@ export default {
   name: "pie_1",
   mounted() {
     this.initChart();
+    this.chartOption.series[0].selectedMode = this.checkCanSelect();
+    if (this.checkCanClick())
+      this.myChart.on("click", this.chartClick);
   },
   data() {
     return {
@@ -19,8 +22,8 @@ export default {
       chartData: {}
     };
   },
-  props: ["layoutData"],
-  mixins: [mixinChartResize, mixinGainColor, mixinPieChartClick],
+  props: ["layoutData", "chartNextClick"],
+  mixins: [mixinChartResize, mixinGainColor],
   methods: {
     initChart() {
       let chartDom = this.$refs.chartBody;
@@ -105,6 +108,34 @@ export default {
 
       this.setOption();
     },
+    chartClick({ data, dataIndex }) {
+      if (this.checkCanSelect())
+        this.chartSelect(data, dataIndex);
+      const nextChart = this.layoutData.click.chart;
+      if (nextChart) {
+        console.log("nextClick:" + nextChart);
+        nextChart.params = {
+          childfilter: data.name,
+          childname: data.name
+        };
+        this.chartNextClick(nextChart);
+      }
+    },
+    chartSelect(data, dataIndex) {
+      const dataArr = this.chartOption.series[0].data;
+      dataArr.forEach((item, index) => {
+        item.selected = index === dataIndex;
+      });
+      dataArr[dataIndex].selected = data.selected = !data.selected;
+      this.setOption();
+    },
+    checkCanSelect() {
+      return (this.layoutData.click && this.layoutData.click.canSelect) ? "single" : "false";
+    },
+    checkCanClick() {
+      console.log("layoutData:", this.layoutData);
+      return (this.layoutData.click && this.layoutData.click.canClick) ? true : false;
+    }
   }
 };
 </script>
