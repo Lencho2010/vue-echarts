@@ -2,7 +2,13 @@
   <div class="root-container h-full">
     <top-bar :title="fullTitle"></top-bar>
     <div class="chart-container">
-      <grid-app-new :depth="1" ref="grid" :theme-data="themeData"></grid-app-new>
+      <grid-app-new :control-btn-full-visible="controlBtnFullVisible"
+                    :depth="1" ref="grid"
+                    :theme-data="themeData"></grid-app-new>
+      <div class="tool-btn" v-show="isCanFull&&controlCanFull">
+        <!--        <el-button type="info" icon="el-icon-message" circle></el-button>-->
+        <el-button @click="changeMiniFullModel" type="warning" icon="el-icon-star-off" circle></el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -23,7 +29,11 @@ export default {
   data() {
     return {
       fullTitle: "全国土地利用结构汇总统计",
-      themeData: {}
+      themeData: {},
+      isMiniModel: true,
+      isCanFull: false,
+      controlCanFull: true,
+      configData: {}
     };
   },
   components: { GridAppNew, TopBar },
@@ -35,9 +45,18 @@ export default {
     async initData() {
       const { data: ret } = await this.getDataFromServer();
       console.log("ret:", ret);
-      this.fullTitle = ret.title; // 专题标题
-      const curLayoutModel = ret.mini; // 用配置文件中的mini作为默认布局
-      this.$refs.grid.initData(curLayoutModel);
+      this.configData = ret;
+      this.isCanFull = this.configData.canFulled;
+      this.fullTitle = this.configData.title; // 专题标题
+      this.$refs.grid.initData(this.configData.mini);
+    },
+    changeMiniFullModel() {
+      this.isMiniModel = !this.isMiniModel;
+      const curModel = this.isMiniModel ? "mini" : "full";
+      this.$refs.grid.initData(this.configData[curModel]);
+    },
+    controlBtnFullVisible(visible) {
+      this.controlCanFull = visible;
     }
   }
 };
@@ -56,6 +75,13 @@ export default {
   /*height: 100%;*/
   flex: 1;
   width: 100%;
+  position: relative;
+}
+
+.tool-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 }
 
 </style>

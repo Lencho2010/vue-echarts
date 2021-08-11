@@ -39,7 +39,7 @@ export default {
       showChild: false
     };
   },
-  props: ["themeData", "depth"],
+  props: ["themeData", "depth", "controlBtnFullVisible"],
   computed: {
     ...mapState(["nextLayouts"]),
     thisDepth() {
@@ -117,6 +117,18 @@ export default {
       }
       console.log(this.layoutDatas.map(t => t.key));
       console.log(this.layoutDatas.map(t => t.title));
+    }
+  },
+  watch: {
+    nextLayouts(newVal, oldVal) {
+      this.controlBtnFullVisible(newVal.length === 0);
+      /*if (newVal.length > 0) {
+        console.log("...........");
+        this.controlBtnFullVisible(false);
+      } else {
+        console.log("&&&&&&&&&&&&&");
+        this.controlBtnFullVisible(true);
+      }*/
     }
   }
 };
