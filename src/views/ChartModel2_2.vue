@@ -48,6 +48,16 @@ export default {
     console.log(this.chartName);
   },
   mounted() {
+    const extendJs = this.layoutData.extendJs;
+    if (extendJs) {
+      const { themeGroup, themeItem } = this.themeData;
+      this.$http(`/layout/${themeGroup}/${themeItem}/${extendJs}.js`).then(({ data }) => {
+        console.log("===================", data);
+        const { add } = eval(data);
+        const result = add(10, 6);
+        console.log("====================result:", result);
+      });
+    }
     this.$bus.$on("hello", data => {
       console.log("我是ChartModel2组件收到了数据：", data);
     });
@@ -151,7 +161,7 @@ export default {
     chartTitle: {
       handler(newVal, oldVal) {
         console.log("chartTitle changed....", newVal);
-        if(this.$refs.chart.titleCheck){
+        if (this.$refs.chart.titleCheck) {
           this.$refs.chart.titleCheck();
         }
       },

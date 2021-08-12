@@ -37,7 +37,10 @@ export default {
       const series = yAxis.map((item, index) => ({
         type: "bar",
         itemStyle: {
-          color: this.gainColorByIndex(index)
+          // color: this.gainColorByIndex(index)
+          color: params => {
+            return this.gainColorByParam(params.name, xAxis, params.dataIndex);
+          }
         }
       }));
       this.chartOption = {
@@ -49,7 +52,7 @@ export default {
             lineHeight: 14
           }
         },
-        tooltip: { formatter: '{a}: {b} {c}' },
+        tooltip: { formatter: "{a}: {b} {c}" },
         dataset: {
           dimensions: [xAxis, ...yAxis],
           source: chartData.data
