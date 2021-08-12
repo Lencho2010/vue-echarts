@@ -15,6 +15,7 @@
                   :prop-next-click="pushLayoutData"
                   :check-can-back="checkCanBack"
                   :layout-data="data"
+                  :parent-layout-data="layoutDatas"
                   :prop-chart-title-click="chartTitleClick"
                   :theme-data="themeData">
       <grid-app-new :depth="depth+1" :theme-data="themeData"></grid-app-new>

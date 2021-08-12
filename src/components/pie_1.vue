@@ -22,7 +22,7 @@ export default {
       chartData: {}
     };
   },
-  props: ["layoutData", "chartNextClick"],
+  props: ["layoutData", "chartNextClick", "chartLinkSelect"],
   mixins: [mixinChartResize, mixinGainColor],
   methods: {
     initChart() {
@@ -127,6 +127,17 @@ export default {
         item.selected = index === dataIndex;
       });
       dataArr[dataIndex].selected = data.selected = !data.selected;
+      //调用联动
+      if (this.chartLinkSelect) {
+        const isSelect = data.selected;
+        const params = {
+          childfilter: data.name,
+          childname: data.name,
+          isSelect: data.selected
+        };
+        this.chartLinkSelect(params);
+      }
+
       this.setOption();
     },
     checkCanSelect() {

@@ -9,6 +9,7 @@
       <component :chart-next-click="propNextClick"
                  :layout-data="layoutData"
                  :is="chartName"
+                 :chart-link-select="chartLinkSelect"
                  class="chart-comm"
                  ref="chart"></component>
     </div>
@@ -52,10 +53,11 @@ export default {
     if (extendJs) {
       const { themeGroup, themeItem } = this.themeData;
       this.$http(`/layout/${themeGroup}/${themeItem}/${extendJs}.js`).then(({ data }) => {
-        console.log("===================", data);
-        const { add } = eval(data);
-        const result = add(10, 6);
-        console.log("====================result:", result);
+        /*const { add } = eval(data);
+        const result = add(10, 6);*/
+        // console.log(data,"=============================");
+        this.extendMethods = eval(data);
+        // console.log(this.extendMethods,"=============================");
       });
     }
     this.$bus.$on("hello", data => {
@@ -83,13 +85,14 @@ export default {
         btnMaxClick: this.btnMaxClick
       },
       childParams: {},
-      chartTitle: {}
+      chartTitle: {},
+      extendMethods: {}
     };
   },
   props: ["layoutData", "themeData",
     "checkCanBack", "propBtnBackClick",
     "propBtnMaxClick", "propNextClick",
-    "propChartTitleClick"],
+    "propChartTitleClick", "parentLayoutData"],
   computed: {
     ...mapState({ regionInfo: "curRegionInfo" })
   },
@@ -155,6 +158,14 @@ export default {
     chartTitleClick(titleData) {
       console.log(titleData);
       this.propChartTitleClick?.call(null, titleData);
+    },
+    chartLinkSelect(params) {
+      const { changeLinkChart } = this.extendMethods;
+      console.log(this.extendMethods);
+      if (changeLinkChart) {
+        console.log("*************************");
+        changeLinkChart(this.parentLayoutData, params);
+      }
     }
   },
   watch: {
