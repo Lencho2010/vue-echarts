@@ -10,12 +10,14 @@
         <el-button @click="changeMiniFullModel" type="warning" icon="el-icon-star-off" circle></el-button>
       </div>
     </div>
+    <len-legend class="len-legend"></len-legend>
   </div>
 </template>
 
 <script>
 import TopBar from "../components/TopBar";
 import GridAppNew from "./GridAppNew";
+import LenLegend from "../components/LenLegend";
 
 export default {
   name: "GridAppNewContainer",
@@ -36,7 +38,7 @@ export default {
       configData: {}
     };
   },
-  components: { GridAppNew, TopBar },
+  components: { LenLegend, GridAppNew, TopBar },
   methods: {
     getDataFromServer() {
       const { themeGroup, themeItem } = this.themeData;
@@ -82,6 +84,12 @@ export default {
   position: absolute;
   bottom: 20px;
   right: 20px;
+}
+
+.len-legend{
+  position: absolute;
+  left: 50px;
+  bottom: 55%;
 }
 
 </style>
