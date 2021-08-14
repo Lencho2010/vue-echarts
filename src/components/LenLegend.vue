@@ -30,6 +30,9 @@
 export default {
   name: "LenLegend",
   mounted() {
+    this.$bus.$on("initLegendData", (isShow, data) => {
+
+    });
   },
   data() {
     return {
@@ -91,6 +94,7 @@ export default {
   },
   methods: {
     legendItemClick(itemGroup, item) {
+      console.log("---------------------------", item);
       item.isCheck = !item.isCheck;
     },
     legendItemLocate(itemGroup, item) {
@@ -154,7 +158,7 @@ export default {
 }
 
 .legend-item:hover .item-locate {
-  opacity: 100%;
+  opacity: 1;
 }
 
 .legend-icon {
@@ -185,11 +189,11 @@ export default {
 }
 
 .check-opacity {
-  opacity: 100%;
+  opacity: 1;
 }
 
 .uncheck-opacity {
-  opacity: 50%;
+  opacity: 0.5;
 }
 
 ::-webkit-scrollbar { /*滚动条整体样式*/
